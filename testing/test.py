@@ -15,10 +15,11 @@ from autogen_agentchat.teams import RoundRobinGroupChat
 from autogen_agentchat.ui import Console
 from autogen_ext.code_executors.local import LocalCommandLineCodeExecutor
 from autogen_ext.models.openai import OpenAIChatCompletionClient
+from autogen_core.model_context import BufferedChatCompletionContext
 
 # Local
 from prompts import cleaning_reasoning_prompt, cleaning_checking_prompt
-from utils import CopyFile, LoadDataset, GetDatasetProfile, Spinner, convert_to_standard_types
+from utils import CopyFile, LoadDataset, GetDatasetProfile, Spinner
 
 # Only edit here AND filepath under if __name__ == "__main__":
 reasoning_model = "qwen2.5:32b-instruct-q8_0"
@@ -80,12 +81,12 @@ async def create_cleaning_agents(filepath: Path) -> Tuple[AssistantAgent, Assist
             pbar.update(1)
             return Validation_Assistant
         
-        list_of_cleaning_agents = await asyncio.gather(
+        list_of_cleaning_reasoning_agents = await asyncio.gather(
             create_cleaning_reasoning_1(),
             create_cleaning_reasoning_2(),
         )
         pbar.update(1)
-        return list_of_cleaning_agents
+        return list_of_cleaning_reasoning_agents
     
 
 async def cleaning_reasoning_pipeline(data_dict: Dict[str, Any], filepath: Path):
@@ -108,6 +109,9 @@ async def cleaning_reasoning_pipeline(data_dict: Dict[str, Any], filepath: Path)
             termination_condition=termination,
         )
         
+        # Save last n messages
+        context = BufferedChatCompletionContext(buffer_size=1)
+        
         # A loading spinner to know if the code is frozen or not
         await Spinner.async_with_spinner(
             message="Loading: ",
@@ -115,6 +119,8 @@ async def cleaning_reasoning_pipeline(data_dict: Dict[str, Any], filepath: Path)
             console_class=Console,
             coroutine=cleaning_team_chat.run_stream(task=cleaning_reasoning_prompt(filepath, data_dict), cancellation_token=None)
         )
+        context.add_message()
+        print(context)
         # Uncomment below to run the code without spinner
         # from autogen_agentchat.ui import Console
         # await cleaning_team_chat.run_stream(task=cleaning_reasoning_prompt(filepath, data_dict), cancellation_token=None)
