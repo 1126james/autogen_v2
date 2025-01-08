@@ -1,52 +1,51 @@
-import asyncio
-from pathlib import Path
-from typing import Dict, Any, Tuple
-
-# Autogen-0.4
-from autogen_agentchat.agents import AssistantAgent
-from autogen_agentchat.conditions import TextMentionTermination, MaxMessageTermination
-from autogen_agentchat.teams import RoundRobinGroupChat
-from autogen_agentchat.ui import Console
 from autogen_ext.models.openai import OpenAIChatCompletionClient
+import asyncio
+import logging
+from autogen_core.logging import LLMCallEvent
+from utils import Spinner
+import os
 
-# Local
-from utils import LoadDataset, GetDatasetProfile
+task = """
+<dataset_location>
+    sheets\credit_card_transactions.csv
+</dataset_location>
 
-# LLMs
-reasoning_model = "qwen2.5:32b-instruct-q8_0"
-coding_model = "qwen2.5-coder:32b-instruct-q8_0"
+<data_dictionary>
+    
+# Dataset Profile
+Total columns: 24
 
-# Common config
-llm_base_url = "http://34.204.63.234:11434/v1"
-api_key = "none"
-capabilities =  {
-        "vision": False,
-        "function_calling": False,
-        "json_output": False
-    }
+## Column Details
+| Column Name | Data Type | Sample Value | Stats | Additional Info |
+|------------|-----------|--------------|-------|------------------|
+| Unnamed: 0 | int64 | 0 | Total: 1296675, Nulls: 0 (0.0%), Unique: 1296675 | Mean: 648337.00<br>Median: 648337.00<br>Range: [0.00, 1296674.00] |
+| trans_date_trans_time | object | 2019-01-01 00:00:18 | Total: 1296675, Nulls: 0 (0.0%), Unique: 1274791 | - |
+| cc_num | int64 | 2703186189652095 | Total: 1296675, Nulls: 0 (0.0%), Unique: 983 | Mean: 417192042079726656.00<br>Median: 3521417320836166.00<br>Range: [60416207185.00, 4992346398065154048.00] |
+| merchant | object | fraud_Rippin, Kub and Mann | Total: 1296675, Nulls: 0 (0.0%), Unique: 693 | - |
+| category | object | misc_net | Total: 1296675, Nulls: 0 (0.0%), Unique: 14 | - |
+| amt | float64 | 4.97 | Total: 1296675, Nulls: 0 (0.0%), Unique: 52928 | Mean: 70.35<br>Median: 47.52<br>Range: [1.00, 28948.90] |
+| first | object | Jennifer | Total: 1296675, Nulls: 0 (0.0%), Unique: 352 | - |
+| last | object | Banks | Total: 1296675, Nulls: 0 (0.0%), Unique: 481 | - |
+| gender | object | F | Total: 1296675, Nulls: 0 (0.0%), Unique: 2 | - |
+| street | object | 561 Perry Cove | Total: 1296675, Nulls: 0 (0.0%), Unique: 983 | - |
+| city | object | Moravian Falls | Total: 1296675, Nulls: 0 (0.0%), Unique: 894 | - |
+| state | object | NC | Total: 1296675, Nulls: 0 (0.0%), Unique: 51 | - |
+| zip | int64 | 28654 | Total: 1296675, Nulls: 0 (0.0%), Unique: 970 | Mean: 48800.67<br>Median: 48174.00<br>Range: [1257.00, 99783.00] |
+| lat | float64 | 36.08 | Total: 1296675, Nulls: 0 (0.0%), Unique: 968 | Mean: 38.54<br>Median: 39.35<br>Range: [20.03, 66.69] |
+| long | float64 | -81.18 | Total: 1296675, Nulls: 0 (0.0%), Unique: 969 | Mean: -90.23<br>Median: -87.48<br>Range: [-165.67, -67.95] |
+| city_pop | int64 | 3495 | Total: 1296675, Nulls: 0 (0.0%), Unique: 879 | Mean: 88824.44<br>Median: 2456.00<br>Range: [23.00, 2906700.00] |
+| job | object | Psychologist, counselling | Total: 1296675, Nulls: 0 (0.0%), Unique: 494 | - |
+| dob | object | 1988-03-09 | Total: 1296675, Nulls: 0 (0.0%), Unique: 968 | - |
+| trans_num | object | 0b242abb623afc578575680df30655b9 | Total: 1296675, Nulls: 0 (0.0%), Unique: 1296675 | - |
+| unix_time | int64 | 1325376018 | Total: 1296675, Nulls: 0 (0.0%), Unique: 1274823 | Mean: 1349243636.73<br>Median: 1349249747.00<br>Range: [1325376018.00, 1371816817.00] |
+| merch_lat | float64 | 36.01 | Total: 1296675, Nulls: 0 (0.0%), Unique: 1247805 | Mean: 38.54<br>Median: 39.37<br>Range: [19.03, 67.51] |
+| merch_long | float64 | -82.05 | Total: 1296675, Nulls: 0 (0.0%), Unique: 1275745 | Mean: -90.23<br>Median: -87.44<br>Range: [-166.67, -66.95] |
+| is_fraud | int64 | 0 | Total: 1296675, Nulls: 0 (0.0%), Unique: 2 | Mean: 0.01<br>Median: 0.00<br>Range: [0.00, 1.00] |
+| merch_zipcode | float64 | 28705.00 | Total: 1296675, Nulls: 195973 (15.1%), Unique: 28336 | Mean: 46825.75<br>Median: 45860.00<br>Range: [1001.00, 99403.00] |
 
+</data_dictionary>"""
 
-# Reasoning Model Configuration
-instruct_client_config = OpenAIChatCompletionClient(
-    model=reasoning_model,
-    base_url=llm_base_url,
-    api_key=api_key,
-    model_capabilities=capabilities
-)
-
-# Coding Model Configuration
-code_client_config = OpenAIChatCompletionClient(
-    model=coding_model,
-    base_url=llm_base_url,
-    api_key=api_key,
-    model_capabilities=capabilities
-)
-
-async def create_cleaning_reasoning_agent():
-    cleaning_reasoning_agent = AssistantAgent(
-        name="cleaning_reasoning_agent",
-        model_client=instruct_client_config,
-        system_message="""<Data Cleaning Planner>
+reasoning_prompt = """<Data Cleaning Planner>
 
 <purpose>
     Provide detailed and actionable data cleaning recommendations with domain-aware considerations for each column.
@@ -99,16 +98,9 @@ async def create_cleaning_reasoning_agent():
     8. Consider and respect relationships between columns (e.g., treat latitude and longitude together).
     9. Adhere strictly to data type constraints (e.g., handle categorical vs. continuous data appropriately).
     10. **Do NOT provide multiple options, use conditional phrases (e.g., "if possible"), or suggest further evaluations. Choose and specify one definitive action for each issue.**
-</strict_rules>
-""" # This would somehow be overwritten by the initial task prompt on the first iteration of RobinRoundGroupChat
-        )
-    return cleaning_reasoning_agent
+</strict_rules>"""
 
-async def create_cleaning_checker():
-    cleaning_checker = AssistantAgent(
-        name="cleaning_checker",
-        model_client=instruct_client_config,
-        system_message="""<Validation Assistant>
+checking_prompt = """<Validation Assistant>
 
 <purpose>
     Automatically validate the output from the Data Cleaning Reasoning Agent to ensure compliance with the predefined format and guidelines.
@@ -176,49 +168,59 @@ async def create_cleaning_checker():
 <strict_compliance>
     Ensure strict adherence to all validation rules. Any deviation should be flagged with clear, actionable feedback to facilitate corrections.
 </strict_compliance>
-""" # This is good
-        )
-    return cleaning_checker
-
-async def run_cleaning_pipeline(data_dict: Dict[str, Any], filepath: Path):
-    try:
-        cleaning_team = await asyncio.gather(
-            create_cleaning_reasoning_agent(),
-            create_cleaning_checker()
-            )
-        
-        # Setup termination conditions
-        text_term = TextMentionTermination("TERMINATE")
-        round_term = MaxMessageTermination(5)
-        termination = text_term | round_term
-
-        # Setup team chat
-        cleaning_team_chat = RoundRobinGroupChat(
-            cleaning_team,
-            termination_condition=termination,
-        )
-        
-        # Define cleaning task
-        # filepath is relative path to a dataset
-        # data_dict is a dictionary containing the dataset metadata in markdown format
-        # when LLM/AI Agent first receives the task, it will overwrite the first agent's system_prompt with the below task
-        cleaning_task = f"""
-<dataset_location>
-    {str(filepath)}
-</dataset_location>
-
-<data_dictionary>
-    {data_dict}
-</data_dictionary>
 """
 
-        await Console(cleaning_team_chat.run_stream(task=cleaning_task))
-        
-    except Exception as e:
-        raise Exception(f"An error occurred: {str(e)}")
+# OpenAI model client configuration
+reasoning_model = "qwen2.5:32b-instruct-q8_0"
+llm_base_url = os.getenv("AWS_API")
+api_key = "none"
+capabilities =  {
+        "vision": False,
+        "function_calling": False,
+        "json_output": False
+    }
+
+# Initialize OpenAI model client
+openai_model_client = OpenAIChatCompletionClient(
+    model=reasoning_model,
+    base_url=llm_base_url,
+    api_key=api_key,
+    model_capabilities=capabilities,
+)
+
+# Initialize agents
+from autogen_agentchat.agents import AssistantAgent
+
+# Replace system_message with pre-defined prompts or exmaples
+# Prompt use: reasoning_prompt, checking_prompt
+# Interviewee Example: You must answer in json format, and must answer with wrong answer only. If the interviewer asks you to review your answer, correct your answer.
+# Interviewer Example: You must review the answer by the interviewee. If the answer is correct, you must say 'Correct'. If the answer is incorrect, ask the interviewee to review the answer.
+Interviewee = AssistantAgent(name='Interviewee',
+                             model_client=openai_model_client,
+                             system_message="You must answer in json format, and must answer with wrong answer only. If the interviewer asks you to review your answer, correct your answer.")
+Interviewer = AssistantAgent(name='Interviewer',
+                             model_client=openai_model_client,
+                             system_message="You must review the answer by the interviewee. If the answer is correct, you must say 'Correct'. If the answer is incorrect, you must say 'Incorrect' and ask the interviewee to review the answer.")
+
+# Groupchat Termination conditions
+from autogen_agentchat.conditions import TextMentionTermination, MaxMessageTermination
+text_term = TextMentionTermination("Correct")
+round_term = MaxMessageTermination(5) #n
+termination = text_term | round_term
+
+# Initialize groupchat
+from autogen_agentchat.teams import RoundRobinGroupChat
+team_chat = RoundRobinGroupChat(
+    [Interviewee, Interviewer],
+    termination_condition=termination,
+)
+
+# Run groupchat in console UI
+from autogen_agentchat.ui import Console
+async def qa():
+    # Promp use: task
+    # Example: Whats the capital of France?
+    await Console(team_chat.run_stream(task="Whats the capital of France?", cancellation_token=None))
 
 if __name__ == "__main__":
-    filepath = Path("sheets\credit_card_transactions.csv")
-    df = LoadDataset(filepath)
-    initial_profile = GetDatasetProfile(df, output_format="markdown")
-    asyncio.run(run_cleaning_pipeline(initial_profile, filepath))
+    asyncio.run(qa())

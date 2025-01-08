@@ -1,4 +1,6 @@
-autogen-ext==0.4.0.dev13
+autogen-ext[openai]==0.4.0.dev13
 autogen-core==0.4.0.dev13
 autogen-agentchat==0.4.0.dev13
 pandas
+azure-core
+azure-identity

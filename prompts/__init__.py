@@ -5,7 +5,7 @@ from .cleaning_checking_prompt import cleaning_checking_prompt
 
 __all__ = [
     "cleaning_reasoning_prompt",
-    "cleaning_checking_prompt"
+    "cleaning_checking_prompt",
     "cleaning_coding_prompt",
     "code_checking_prompt",
 ]
