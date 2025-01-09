@@ -105,7 +105,7 @@ async def cleaning_reasoning_pipeline(data_dict: Dict[str, Any], filepath: Path)
 
         # First phase: Data Cleaning (Reasoning)
         cleaning_team_chat = RoundRobinGroupChat(
-            cleaning_team,
+            cleaning_reasoning_team,
             termination_condition=termination,
         )
         
@@ -113,13 +113,13 @@ async def cleaning_reasoning_pipeline(data_dict: Dict[str, Any], filepath: Path)
         context = BufferedChatCompletionContext(buffer_size=1)
         
         # A loading spinner to know if the code is frozen or not
-        await Spinner.async_with_spinner(
+        run_task = Spinner.async_with_spinner(
             message="Loading: ",
             style="braille",
             console_class=Console,
             coroutine=cleaning_team_chat.run_stream(task=cleaning_reasoning_prompt(filepath, data_dict), cancellation_token=None)
         )
-        context.add_message()
+        context = context.add_message(await run_task)
         print(context)
         # Uncomment below to run the code without spinner
         # from autogen_agentchat.ui import Console
