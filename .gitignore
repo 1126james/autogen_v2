@@ -5,6 +5,7 @@ Scripts/
 share/
 bin/
 sheets/credit_card_transactions.csv
+pyvenv.cfg
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
