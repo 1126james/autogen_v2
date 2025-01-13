@@ -4,8 +4,9 @@ from pathlib import Path
 from typing import Dict, Any, Union
 from tqdm import tqdm
 import json
+import asyncio
 
-def LoadDataset(file_path: Union[str, Path]) -> pd.DataFrame:
+async def _LoadDataset(file_path: Union[str, Path]) -> pd.DataFrame:
     """
     Load various tabular data formats into a pandas DataFrame.
     Supports CSV, Excel, and other common formats.
@@ -27,7 +28,7 @@ def LoadDataset(file_path: Union[str, Path]) -> pd.DataFrame:
     else:
         raise ValueError(f"Unsupported file format: {file_path.suffix}")
 
-def GetDatasetProfile(df: pd.DataFrame, output_format: str = 'markdown') -> Union[str, Dict[str, Any]]:
+async def GetDatasetProfile(root, file_name: str, output_format: str = 'markdown') -> Union[str, Dict[str, Any]]:
     """
     Create a comprehensive profile of the dataset including statistics, metadata, and samples.
     
@@ -43,12 +44,13 @@ def GetDatasetProfile(df: pd.DataFrame, output_format: str = 'markdown') -> Unio
         ValueError: If an unsupported output format is specified.
     """
     
+    df = await(_LoadDataset(file_path=root+file_name))
     profile = {}
     
     for col in tqdm(df.columns,
-                   desc=f"Processing {len(df.columns)} columns",
-                   bar_format="{desc:>30}{postfix: <1} {bar}|{n_fmt:>4}/{total_fmt:<4}",
-                   colour="green"):
+                desc=f"Processing {len(df.columns)} columns ({file_name})",
+                bar_format="{desc:<70} {bar:30}|{n_fmt:>4}/{total_fmt:<4}",
+                colour="green"):
         # Get non-null sample value
         sample_series = df[col].dropna()
         sample_value = sample_series.iloc[0] if not sample_series.empty else None
@@ -92,15 +94,15 @@ def GetDatasetProfile(df: pd.DataFrame, output_format: str = 'markdown') -> Unio
         profile[col] = col_stats
     
     if output_format == 'markdown':
-        return _format_markdown(profile)
+        return await _format_markdown(profile)
     elif output_format == 'natural_language':
-        return _format_natural_language(profile)
+        return await _format_natural_language(profile)
     elif output_format == 'json':
         return profile  # Returning the dictionary directly
     else:
         raise ValueError("Unsupported output format. Choose from 'markdown', 'natural_language', or 'json'.")
 
-def _format_markdown(profile: Dict[str, Any]) -> str:
+async def _format_markdown(profile: Dict[str, Any]) -> str:
     """Format profile as markdown table"""
     # Header section
     md = f"""
@@ -138,7 +140,7 @@ Total columns: {len(profile)}
     
     return md
 
-def _format_natural_language(profile: Dict[str, Any]) -> str:
+async def _format_natural_language(profile: Dict[str, Any]) -> str:
     """Format profile as natural language description"""
     nl = f"This dataset contains {len(profile)} columns:\n\n"
     
@@ -160,7 +162,7 @@ def _format_natural_language(profile: Dict[str, Any]) -> str:
     
     return nl
 
-def convert_to_standard_types(obj):
+async def convert_to_standard_types(obj):
     if isinstance(obj, dict):
         return {k: convert_to_standard_types(v) for k, v in obj.items()}
     elif isinstance(obj, list):
@@ -178,7 +180,7 @@ def convert_to_standard_types(obj):
 
 if __name__ == "__main__":
     # Update the file path as needed
-    df = LoadDataset(Path("sheets/credit_card_transactions.csv"))
+    filepath = Path("sheets/mysql/products.csv")
     
     while True:
         input_method = input('Select output format - md (markdown), nl (natural language), or json (JSON): ').strip().lower()
@@ -189,11 +191,11 @@ if __name__ == "__main__":
     
     try:
         if input_method in ['md', 'markdown']:
-            profile = GetDatasetProfile(df, output_format='markdown')
+            profile = asyncio.run(GetDatasetProfile(filepath, output_format='markdown'))
         elif input_method in ['nl', 'natural language']:
-            profile = GetDatasetProfile(df, output_format='natural_language')
+            profile = asyncio.run(GetDatasetProfile(filepath, output_format='natural_language'))
         elif input_method == 'json':
-            profile = GetDatasetProfile(df, output_format='json')  # Dictionary
+            profile = asyncio.run(GetDatasetProfile(filepath, output_format='json'))  # Dictionary
         print(profile)
     except ValueError as ve:
         error_message = {"error": str(ve)}

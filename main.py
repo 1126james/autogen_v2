@@ -119,8 +119,9 @@ async def cleaning_reasoning_pipeline(data_dict: Dict[str, Any], filepath: Path)
             console_class=Console,
             coroutine=cleaning_team_chat.run_stream(task=cleaning_reasoning_prompt(filepath, data_dict), cancellation_token=None)
         )
-        context = context.add_message(await run_task)
-        print(context)
+
+        await run_task
+        
         # Uncomment below to run the code without spinner
         # from autogen_agentchat.ui import Console
         # await cleaning_team_chat.run_stream(task=cleaning_reasoning_prompt(filepath, data_dict), cancellation_token=None)
