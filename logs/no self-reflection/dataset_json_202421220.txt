@@ -1,7 +1,3 @@
-(autogen_v1) C:\Users\James\Desktop\python\autogen_v1>python main.py
-Preparing dataset: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 3/3
-File successfully copied to C:\Users\James\Desktop\python\autogen_v1\coding\sheets\credit_card_transactions.csv
-Creating cleaning team agents: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 4/4
 ⠋ Loading: ---------- user ----------
 <Data Cleaning Advisor>
 
@@ -274,6 +270,3 @@ Finish reason: Text 'TERMINATE' mentioned
 Total prompt tokens: 8759
 Total completion tokens: 2721
 Duration: 254.12 seconds
-
-
-(autogen_v1) C:\Users\James\Desktop\python\autogen_v1>

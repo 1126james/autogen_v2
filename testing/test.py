@@ -67,7 +67,7 @@ async def create_cleaning_agents(filepath: Path) -> Tuple[AssistantAgent, Assist
             Data_Cleaning_Planner = AssistantAgent(
                 name="Data_Cleaning_Planner",
                 model_client=instruct_client_config,
-                system_message=cleaning_reasoning_prompt(filepath),
+                system_message=cleaning_reasoning_prompt(filepath, format='markdown'),
             )
             pbar.update(1)
             return Data_Cleaning_Planner
@@ -95,7 +95,7 @@ async def cleaning_reasoning_pipeline(data_dict: Dict[str, Any], filepath: Path)
     """
     try:
         # cleaning_reasoning_agent, 
-        cleaning_reasoning_team = await create_cleaning_agents(filepath)
+        cleaning_reasoning_team: Tuple[AssistantAgent] = await create_cleaning_agents(filepath, data_dict)
         # cleaning_team = [cleaning_team[0], cleaning_team[1]]
         
         # Setup termination conditions
@@ -117,10 +117,11 @@ async def cleaning_reasoning_pipeline(data_dict: Dict[str, Any], filepath: Path)
             message="Loading: ",
             style="braille",
             console_class=Console,
+            # cleaning_reasoning_prompt(filepath, data_dict, format='initiate')
             coroutine=cleaning_team_chat.run_stream(task=cleaning_reasoning_prompt(filepath, data_dict), cancellation_token=None)
         )
-        context = context.add_message(await run_task)
-        print(context)
+
+        await run_task
         # Uncomment below to run the code without spinner
         # from autogen_agentchat.ui import Console
         # await cleaning_team_chat.run_stream(task=cleaning_reasoning_prompt(filepath, data_dict), cancellation_token=None)

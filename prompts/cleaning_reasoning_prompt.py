@@ -1,4 +1,4 @@
-def cleaning_reasoning_prompt(filepath, data_dict='Reference to chat history', format: str = 'markdown') -> str:
+def cleaning_reasoning_prompt(filepath, data_dict = 'Reference to chat history', format: str = 'markdown') -> str:
     match format:
         case 'markdown':
             return f"""<Data_Cleaning_Planner>
@@ -66,7 +66,6 @@ def cleaning_reasoning_prompt(filepath, data_dict='Reference to chat history', f
     11. **DO NOT** provide multiple options, use conditional phrases (e.g., "if possible"), or suggest further evaluations. **Select and specify one definitive action** for each issue.
     12. **Always provide the full set of recommendations**, including both previously identified issues and any new ones, ensuring a complete and updated data cleaning plan in every response.
     13. **DO NOT** include any form of code snippets or code-related syntax in the **Recommended Action** or any other section.
-    14. 
 </strict_rules>
 
 </Data_Cleaning_Planner>"""
@@ -111,5 +110,22 @@ def cleaning_reasoning_prompt(filepath, data_dict='Reference to chat history', f
         ]
     }
 }"""
+        case 'initiate':
+            return f"""<Pipeline_Initialization>
+
+<purpose>
+    Initializing data cleaning team.
+</purpose>
+
+<dataset_location>
+    Filepath: {filepath}
+</dataset_location>
+
+<data_dictionary>
+    {data_dict}
+</data_dictionary>
+
+</Pipeline_Initialization>"""
+        
         case _:
             raise ValueError("Unsupported output format. Choose from 'markdown' or 'json'.")
