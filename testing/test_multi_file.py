@@ -43,7 +43,7 @@ instruct_client_config = OpenAIChatCompletionClient(
     model=reasoning_model,
     base_url=llm_base_url,
     api_key=api_key,
-    model_capabilities=capabilities
+    model_info=capabilities
 )
 
 # Coding Model Configuration
@@ -51,7 +51,7 @@ code_client_config = OpenAIChatCompletionClient(
     model=coding_model,
     base_url=llm_base_url,
     api_key=api_key,
-    model_capabilities=capabilities
+    model_info=capabilities
 )
 
 async def create_file_handling_agents(number_of_agents: int = None) -> List[AssistantAgent]:

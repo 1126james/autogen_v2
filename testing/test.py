@@ -16,10 +16,10 @@ from autogen_agentchat.ui import Console
 from autogen_ext.code_executors.local import LocalCommandLineCodeExecutor
 from autogen_ext.models.openai import OpenAIChatCompletionClient
 from autogen_core.model_context import BufferedChatCompletionContext
-
+from autogen_ext.models.openai.config import 
 # Local
 from prompts import cleaning_reasoning_prompt, cleaning_checking_prompt
-from utils import CopyFile, LoadDataset, GetDatasetProfile, Spinner
+from utils import CopyFile, GetDatasetProfile, Spinner
 
 # Only edit here AND filepath under if __name__ == "__main__":
 reasoning_model = "qwen2.5:32b-instruct-q8_0"
@@ -27,7 +27,7 @@ coding_model = "qwen2.5-coder:32b-instruct-q8_0"
 
 # Common config
 llm_base_url = "http://34.204.63.234:11434/v1"
-api_key = "none"
+api_key = "sk-COUbOl2Eh7IYaz6SqFADUp7Ie4WA4rzFvNr3PzIAZjVyHQcJ"
 capabilities =  {
         "vision": False,
         "function_calling": False,
@@ -54,7 +54,7 @@ code_client_config = OpenAIChatCompletionClient(
     model_capabilities=capabilities
 )
 
-async def create_cleaning_agents(filepath: Path) -> Tuple[AssistantAgent, AssistantAgent]:
+async def create_cleaning_agents(filepath: str) -> Tuple[AssistantAgent, AssistantAgent]:
     
     # tqdm progress bar
     with tqdm(total=3,
@@ -89,13 +89,13 @@ async def create_cleaning_agents(filepath: Path) -> Tuple[AssistantAgent, Assist
         return list_of_cleaning_reasoning_agents
     
 
-async def cleaning_reasoning_pipeline(data_dict: Dict[str, Any], filepath: Path):
+async def cleaning_reasoning_pipeline(data_dict: Dict[str, Any], filepath: str):
     """
     Run the complete data cleaning and transformation pipeline
     """
     try:
         # cleaning_reasoning_agent, 
-        cleaning_reasoning_team: Tuple[AssistantAgent] = await create_cleaning_agents(filepath, data_dict)
+        cleaning_reasoning_team: Tuple[AssistantAgent] = await create_cleaning_agents(filepath)
         # cleaning_team = [cleaning_team[0], cleaning_team[1]]
         
         # Setup termination conditions
@@ -135,13 +135,13 @@ if __name__ == "__main__":
               bar_format='{desc:>30}{postfix: <1} {bar}|{n_fmt:>4}/{total_fmt:<4}',
               colour='green') as pbar:
         # Edit file path
-        test_file = Path("sheets/credit_card_transactions.csv")
+        root = "sheets/"
+        file_name = "credit_card_transactions.csv"
         pbar.update(1)
-        df = LoadDataset(test_file)
         pbar.update(1)
         # Custom function in utils/ to get data dict in markdown/natural language/json format
-        initial_profile = GetDatasetProfile(df, output_format="json")
+        initial_profile = asyncio.run(GetDatasetProfile(root, file_name=file_name, output_format="json"))
         pbar.update(1)
 
-    asyncio.run(cleaning_reasoning_pipeline(initial_profile, test_file))
+    asyncio.run(cleaning_reasoning_pipeline(initial_profile, root+file_name))
 
