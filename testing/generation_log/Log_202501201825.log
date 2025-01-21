@@ -1,0 +1,602 @@
+[
+{
+    "Data Dictionary for customer.csv": [
+        {
+            "Column": "customerNumber",
+            "Possible meaning": "Unique identifier for each customer.",
+            "Description": "An integer that uniquely identifies a specific customer within the database.",
+            "Relationships with other columns": "This column likely serves as a foreign key in related tables such as orders or payments.",
+            "Sample value": 103
+        },
+        {
+            "Column": "customerName",
+            "Possible meaning": "The name of the company or individual customer.",
+            "Description": "A string that represents the full name of the business entity or person associated with a specific customer number.",
+            "Relationships with other columns": "It is often used in conjunction with contactLastName and contactFirstName to identify who within an organization should be contacted for inquiries.",
+            "Sample value": "Atelier graphique"
+        },
+        {
+            "Column": "contactLastName",
+            "Possible meaning": "The last name of the primary contact person at a customer's company or individual.",
+            "Description": "A string that represents the surname of the main point of contact for each customer.",
+            "Relationships with other columns": "It is often used in conjunction with contactFirstName and customerName to identify who within an organization should be contacted for inquiries.",
+            "Sample value": "Schmitt"
+        },
+        {
+            "Column": "contactFirstName",
+            "Possible meaning": "The first name of the primary contact person at a customer's company or individual.",
+            "Description": "A string that represents the given name of the main point of contact for each customer.",
+            "Relationships with other columns": "It is often used in conjunction with contactLastName and customerName to identify who within an organization should be contacted for inquiries.",
+            "Sample value": "Carine"
+        },
+        {
+            "Column": "phone",
+            "Possible meaning": "The primary phone number of the customer or their main point of contact.",
+            "Description": "A string that represents a telephone number used to reach out to the customer directly.",
+            "Relationships with other columns": "",
+            "Sample value": "40.32.2555"
+        },
+        {
+            "Column": "addressLine1",
+            "Possible meaning": "The first line of the physical address for a customer's business or residence.",
+            "Description": "A string that represents part of the full mailing address, typically including street name and number.",
+            "Relationships with other columns": "It is often used in conjunction with addressLine2, city, state, postalCode, and country to form a complete physical address for each customer.",
+            "Sample value": "54, rue Royale"
+        },
+        {
+            "Column": "addressLine2",
+            "Possible meaning": "The second line of the physical address for a customer's business or residence (optional).",
+            "Description": "A string that represents additional information about the mailing address such as an apartment number or suite.",
+            "Relationships with other columns": "It is often used in conjunction with addressLine1, city, state, postalCode, and country to form a complete physical address for each customer. However, it's not always filled out.",
+            "Sample value": "Level 3"
+        },
+        {
+            "Column": "city",
+            "Possible meaning": "The name of the city where the customer is located.",
+            "Description": "A string that represents the urban area in which a business or individual resides.",
+            "Relationships with other columns": "It is often used in conjunction with state, postalCode, and country to form a complete physical address for each customer.",
+            "Sample value": "Nantes"
+        },
+        {
+            "Column": "state",
+            "Possible meaning": "The name or abbreviation of the administrative division (e.g., state) where the customer is located.",
+            "Description": "A string that represents part of a country's regional divisions, such as states in the U.S. This field may not be applicable for all countries.",
+            "Relationships with other columns": "It is often used in conjunction with city, postalCode, and country to form a complete physical address for each customer. However, it can have null values if the concept of 'state' doesn't apply or isn't provided by some customers.",
+            "Sample value": "NV"
+        },
+        {
+            "Column": "postalCode",
+            "Possible meaning": "The postal code (ZIP Code in U.S.) for a customer's physical address.",
+            "Description": "A string that represents the numerical part of an address used by mail services to sort and deliver letters and packages.",
+            "Relationships with other columns": "It is often used in conjunction with city, state, and country to form a complete physical address for each customer. However, it can have null values if not applicable or provided.",
+            "Sample value": ""
+        },
+        {
+            "Column": "country",
+            "Possible meaning": "The name of the country where the customer is located.",
+            "Description": "A string that represents the nation in which a business or individual resides. This field helps to identify international customers.",
+            "Relationships with other columns": "",
+            "Sample value": ""
+        },
+        {
+            "Column": "salesRepEmployeeNumber",
+            "Possible meaning": "(Not provided, but inferred from context) The unique identifier for the sales representative assigned to a customer account.",
+            "Description": "(Inferred) An integer that links each customer to their dedicated salesperson within the company's employee database. This field helps track which employees are responsible for specific customers and can be used in performance evaluations or commission calculations.",
+            "Relationships with other columns": "",
+            "Sample value": ""
+        },
+        {
+            "Column": "creditLimit",
+            "Possible meaning": "(Not provided, but inferred from context) The maximum amount of credit that a customer is allowed to have at any given time.",
+            "Description": "(Inferred) A floating-point number representing the upper limit on how much money or goods/services can be extended as credit before payment is due. This field helps manage risk and ensure financial stability in business transactions with customers.",
+            "Relationships with other columns": "",
+            "Sample value": ""
+        },
+        {
+            "Column": "salesRepEmployeeNumber",
+            "Possible meaning": "(Not provided, but inferred from context) The unique identifier for the sales representative assigned to a customer account.",
+            "Description": "(Inferred) An integer that links each customer to their dedicated salesperson within the company's employee database. This field helps track which employees are responsible for specific customers and can be used in performance evaluations or commission calculations.",
+            "Relationships with other columns": "",
+            "Sample value": ""
+        },
+        {
+            "Column": "creditLimit",
+            "Possible meaning": "(Not provided, but inferred from context) The maximum amount of credit that a customer is allowed to have at any given time.",
+            "Description": "(Inferred) A floating-point number representing the upper limit on how much money or goods/services can be extended as credit before payment is due. This field helps manage risk and ensure financial stability in business transactions with customers.",
+            "Relationships with other columns": "",
+            "Sample value": ""
+        },
+        {
+            "Column": "salesRepEmployeeNumber",
+            "Possible meaning": "(Not provided, but inferred from context) The unique identifier for the sales representative assigned to a customer account.",
+            "Description": "(Inferred) An integer that links each customer to their dedicated salesperson within the company's employee database. This field helps track which employees are responsible for specific customers and can be used in performance evaluations or commission calculations.",
+            "Relationships with other columns": "",
+            "Sample value": ""
+        },
+        {
+            "Column": "creditLimit",
+            "Possible meaning": "(Not provided, but inferred from context) The maximum amount of credit that a customer is allowed to have at any given time.",
+            "Description": "(Inferred) A floating-point number representing the upper limit on how much money or goods/services can be extended as credit before payment is due. This field helps manage risk and ensure financial stability in business transactions with customers.",
+            "Relationships with other columns": "",
+            "Sample value": ""
+        }
+    ]
+},
+{
+    "Data Dictionary for employee.csv": [
+        {
+            "Column": "employeeNumber",
+            "Possible meaning": "Unique identifier for each employee.",
+            "Description": "A unique integer assigned to every employee, used as a primary key within the dataset.",
+            "Relationships with other columns": "Can be linked with 'reportsTo' to establish hierarchical relationships between employees.",
+            "Sample value": 1002
+        },
+        {
+            "Column": "lastName",
+            "Possible meaning": "The last name of an employee.",
+            "Description": "Represents the family or surname of each individual employee in the dataset.",
+            "Relationships with other columns": "Combined with 'firstName' to form a full name for identification purposes.",
+            "Sample value": "Murphy"
+        },
+        {
+            "Column": "firstName",
+            "Possible meaning": "The first (given) name of an employee.",
+            "Description": "Represents the given or personal name of each individual employee in the dataset.",
+            "Relationships with other columns": "Combined with 'lastName' to form a full name for identification purposes.",
+            "Sample value": "Diane"
+        },
+        {
+            "Column": "extension",
+            "Possible meaning": "The telephone extension number associated with an employee's office phone.",
+            "Description": "A unique identifier used in conjunction with the main company phone number to reach individual employees directly by their desk phones.",
+            "Relationships with other columns": "",
+            "Sample value": "x5800"
+        },
+        {
+            "Column": "email",
+            "Possible meaning": "The email address of an employee.",
+            "Description": "Represents the electronic mail identifier used for communication within and outside the company.",
+            "Relationships with other columns": "",
+            "Sample value": "dmurphy@classicmodelcars.com"
+        },
+        {
+            "Column": "officeCode",
+            "Possible meaning": "The code representing an employee's office location or department.",
+            "Description": "A unique identifier for the physical office space or department where each employee works.",
+            "Relationships with other columns": "",
+            "Sample value": 1
+        },
+        {
+            "Column": "reportsTo",
+            "Possible meaning": "The employee number of an individual's direct supervisor.",
+            "Description": "Identifies which employee is the immediate superior to whom another reports, using their 'employeeNumber'. A zero (0) may indicate a top-level executive with no direct supervisor.",
+            "Relationships with other columns": "Linked with 'employeeNumber' to establish managerial hierarchies within the company structure.",
+            "Sample value": 0
+        },
+        {
+            "Column": "jobTitle",
+            "Possible meaning": "The title or role of an employee's position in the organization.",
+            "Description": "Describes the official designation or function that each individual performs for their job, reflecting their level and responsibilities within the company hierarchy.",
+            "Relationships with other columns": "",
+            "Sample value": "President"
+        }
+    ]
+},
+{
+    "Data Dictionary for office.csv": [
+        {
+            "Column": "officeCode",
+            "Possible meaning": "A unique identifier for each office.",
+            "Description": "An integer that uniquely identifies an office within a company's database or system.",
+            "Relationships with other columns": "This column is likely the primary key and can be used to join this table with others where offices are referenced by their code, such as employee assignments or sales territories.",
+            "Sample value": 1
+        },
+        {
+            "Column": "city",
+            "Possible meaning": "The city in which an office is located.",
+            "Description": "A string representing the name of a city. This helps identify where each office is situated geographically.",
+            "Relationships with other columns": "This column can be used alongside 'state', 'country', and 'postalCode' to form a complete address for each office location.",
+            "Sample value": "San Francisco"
+        },
+        {
+            "Column": "phone",
+            "Possible meaning": "The contact phone number of the office.",
+            "Description": "A string containing the telephone number used by an office, often including country and area codes to ensure international reachability.",
+            "Relationships with other columns": "",
+            "Sample value": "+1 650 219 4782"
+        },
+        {
+            "Column": "addressLine1",
+            "Possible meaning": "The first line of the office's physical address.",
+            "Description": "A string that contains part of an office\u2019s street address, typically including the building number and name or type (e.g., Street).",
+            "Relationships with other columns": "This column is used in conjunction with 'addressLine2', 'city', 'state', 'country', and 'postalCode' to form a complete mailing address.",
+            "Sample value": "100 Market Street"
+        },
+        {
+            "Column": "addressLine2",
+            "Possible meaning": "The second line of the office's physical address, often used for suite or floor number.",
+            "Description": "A string that contains additional information about an office\u2019s location such as a suite or building section. This field is optional and may be null if not applicable.",
+            "Relationships with other columns": "This column complements 'addressLine1' to provide more detailed address information, though it can have missing values for offices without secondary address details.",
+            "Sample value": "Suite 300"
+        },
+        {
+            "Column": "state",
+            "Possible meaning": "The state or province in which an office is located.",
+            "Description": "A string representing the name of a state, often abbreviated (e.g., CA for California). This helps specify where each office is within its country.",
+            "Relationships with other columns": "This column can be used alongside 'city', 'country', and 'postalCode' to form a complete address. It may have null values if the location does not apply, such as in countries without states or provinces.",
+            "Sample value": "CA"
+        },
+        {
+            "Column": "country",
+            "Possible meaning": "The country where an office is located.",
+            "Description": "A string representing the name of a country. This helps identify which nation each office belongs to, aiding in international business operations and compliance with local laws.",
+            "Relationships with other columns": "This column can be used alongside 'city', 'state', and 'postalCode' to form a complete address for an office location.",
+            "Sample value": "USA"
+        },
+        {
+            "Column": "postalCode",
+            "Possible meaning": "The postal or zip code of the office's location.",
+            "Description": "A string representing the postal code, which is used by mail services to sort and deliver mail efficiently. This helps in specifying a more precise geographic area within a city or state.",
+            "Relationships with other columns": "This column can be used alongside 'city', 'state', and 'country' to form a complete address for an office location.",
+            "Sample value": "94080"
+        },
+        {
+            "Column": "territory",
+            "Possible meaning": "The sales territory or region associated with the office.",
+            "Description": "A string representing a larger geographic area that encompasses multiple offices and is used for organizational purposes, such as sales territories (e.g., EMEA). This helps in managing regional operations and strategies.",
+            "Relationships with other columns": "This column may be related to 'country' or 'state', but it can also represent broader regions. It might have null values if the office does not belong to a specific territory, which could indicate central offices or those without defined territories.",
+            "Sample value": "EMEA"
+        }
+    ]
+},
+{
+    "Data Dictionary for orderdetails.csv": [
+        {
+            "Column": "orderNumber",
+            "Possible meaning": "A unique identifier assigned to each order.",
+            "Description": "This column contains a numeric value that uniquely identifies an individual order within the dataset.",
+            "Relationships with other columns": "It is likely used as a foreign key in relation to another table (e.g., orders) and can be joined with 'productCode' for detailed analysis of each product's performance per order.",
+            "Sample value": 10100
+        },
+        {
+            "Column": "productCode",
+            "Possible meaning": "A unique identifier assigned to a specific product.",
+            "Description": "This column contains alphanumeric codes that uniquely identify products within the dataset. The 'S' prefix might indicate a category or type of product (e.g., S for standard).",
+            "Relationships with other columns": "It can be used in conjunction with 'orderNumber' to analyze which specific items are ordered together and how often.",
+            "Sample value": "S18_1749"
+        },
+        {
+            "Column": "quantityOrdered",
+            "Possible meaning": "The number of units of a product that were ordered.",
+            "Description": "This column contains the quantity of each item specified in 'productCode' that was included in an order identified by 'orderNumber'.",
+            "Relationships with other columns": "It is commonly analyzed alongside 'priceEach' to calculate total revenue per line or combined with 'orderLineNumber' for detailed analysis within a single order.",
+            "Sample value": 30
+        },
+        {
+            "Column": "priceEach",
+            "Possible meaning": "The unit price of the product ordered.",
+            "Description": "This column contains the cost per unit of each item specified in 'productCode'. It is used to calculate total revenue for an order line when multiplied by 'quantityOrdered'.",
+            "Relationships with other columns": "It can be analyzed together with 'quantityOrdered' and 'orderNumber' to understand pricing strategies, discounts applied, or the overall value of orders.",
+            "Sample value": 136.0
+        },
+        {
+            "Column": "orderLineNumber",
+            "Possible meaning": "The sequence number for each line in an order.",
+            "Description": "This column contains a numeric identifier that represents the position of this product within the list of products ordered under 'orderNumber'. It helps to organize items within one order.",
+            "Relationships with other columns": "It is used together with 'orderNumber' and can be analyzed alongside 'quantityOrdered', 'productCode', and 'priceEach' for detailed analysis on ordering patterns or specific product placements in orders.",
+            "Sample value": 3
+        }
+    ]
+},
+{
+    "Data Dictionary for orders.csv": [
+        {
+            "Column": "orderNumber",
+            "Possible meaning": "Unique identifier for each order.",
+            "Description": "An integer that uniquely identifies an order within the dataset.",
+            "Relationships with other columns": "It can be used to join this table with others, such as order details or customer information tables.",
+            "Sample value": 10100
+        },
+        {
+            "Column": "orderDate",
+            "Possible meaning": "The date when the order was placed by a customer.",
+            "Description": "A string representing the date in 'YYYY-MM-DD' format, indicating when an order was created or submitted.",
+            "Relationships with other columns": "It can be compared against requiredDate and shippedDate to determine processing times and delays.",
+            "Sample value": "2003-01-06"
+        },
+        {
+            "Column": "requiredDate",
+            "Possible meaning": "The date by which the customer requested that the order should be completed or delivered.",
+            "Description": "A string representing a deadline in 'YYYY-MM-DD' format, set by customers for their orders to be ready or shipped.",
+            "Relationships with other columns": "It can be used alongside orderDate and shippedDate to assess if orders were met on time.",
+            "Sample value": "2003-01-13"
+        },
+        {
+            "Column": "shippedDate",
+            "Possible meaning": "The date when the order was actually shipped or dispatched from the warehouse.",
+            "Description": "A string representing a dispatch date in 'YYYY-MM-DD' format, indicating when an order left for delivery. It may be null if not yet shipped.",
+            "Relationships with other columns": "It can be compared to requiredDate and orderDate to calculate shipping delays or efficiency metrics.",
+            "Sample value": "2003-01-10"
+        },
+        {
+            "Column": "status",
+            "Possible meaning": "The current status of the order, such as shipped, on hold, etc.",
+            "Description": "A string indicating the state of an order in terms of its fulfillment process. Sample statuses include 'Shipped', 'On Hold'.",
+            "Relationships with other columns": "It can be correlated with shippedDate to understand if orders are being processed according to their status.",
+            "Sample value": "Shipped"
+        },
+        {
+            "Column": "comments",
+            "Possible meaning": "Additional notes or remarks about the order, such as special instructions for fulfillment.",
+            "Description": "A string field that may contain customer-specific requests or internal comments. It can be null if no additional information is provided.",
+            "Relationships with other columns": "It might relate to status changes or delays indicated by shippedDate and requiredDate.",
+            "Sample value": "Check on availability."
+        },
+        {
+            "Column": "customerNumber",
+            "Possible meaning": "A unique identifier for the customer who placed the order.",
+            "Description": "An integer that uniquely identifies a customer within the dataset, which can be used to aggregate orders by customers or join with other tables containing customer details.",
+            "Relationships with other columns": "It is likely linked to another table where more detailed information about each customer (e.g., name, address) might be stored.",
+            "Sample value": 363
+        }
+    ]
+},
+{
+    "Data Dictionary for payments.csv": [
+        {
+            "Column": "customerNumber",
+            "Possible meaning": "Unique identifier for each customer.",
+            "Description": "An integer that uniquely identifies a specific customer within the dataset.",
+            "Relationships with other columns": "This column can be used to link payment records back to individual customers, possibly relating it to another table in a database where more detailed information about the customer is stored (e.g., name, address).",
+            "Sample value": 103
+        },
+        {
+            "Column": "checkNumber",
+            "Possible meaning": "Unique identifier for each payment check.",
+            "Description": "A string that uniquely identifies a specific payment transaction. It could be the number or code printed on the physical check used to make the payment.",
+            "Relationships with other columns": "This column can help in tracking individual payments made by customers, and it may also relate to external records of checks processed through banking systems.",
+            "Sample value": "HQ336336"
+        },
+        {
+            "Column": "paymentDate",
+            "Possible meaning": "The date when the payment was received or recorded.",
+            "Description": "A string representing a specific date in 'YYYY-MM-DD' format, indicating on which day the payment transaction took place.",
+            "Relationships with other columns": "This column can be used to analyze trends over time and correlate payments made by customers (customerNumber) at different times. It also helps in understanding the timing of transactions relative to check numbers or amounts paid.",
+            "Sample value": "2004-10-19"
+        },
+        {
+            "Column": "amount",
+            "Possible meaning": "The monetary amount of each payment transaction.",
+            "Description": "A floating-point number representing the total sum of money that was transferred as part of a specific payment. This could be in any currency, but typically would represent dollars or another common currency used by the business.",
+            "Relationships with other columns": "This column can be analyzed alongside customerNumber to understand spending patterns per customer and checkNumber/paymentDate for trends over time or individual transaction sizes.",
+            "Sample value": 6066.78
+        }
+    ]
+},
+{
+    "Data Dictionary for productlines.csv": [
+        {
+            "Column": "productLine",
+            "Possible meaning": "Category or type of products available.",
+            "Description": "This column lists different categories of products such as Classic Cars, Motorcycles, etc., that are offered by the company. It helps in identifying and classifying various product lines.",
+            "Relationships with other columns": "It can be related to 'textDescription' for detailed information about each product line.",
+            "Sample value": "Classic Cars"
+        },
+        {
+            "Column": "textDescription",
+            "Possible meaning": "Detailed textual description of the products in a specific category.",
+            "Description": "This column provides comprehensive descriptions that detail what kind of items are included within each product line, their features, and other relevant information to potential buyers or users.",
+            "Relationships with other columns": "It is directly related to 'productLine' as it gives detailed explanations about the products in a specific category. It can also be compared against 'htmlDescription', although the latter has no data present.",
+            "Sample value": "Attention car enthusiasts: Make your wildest car ownership dreams come true..."
+        },
+        {
+            "Column": "htmlDescription",
+            "Possible meaning": "HTML formatted description of products in a specific category.",
+            "Description": "This column is intended to contain HTML-formatted descriptions for each product line, which could be used on web pages or other digital platforms. However, all values are currently null (missing).",
+            "Relationships with other columns": "It should complement 'textDescription' by providing the same information but in a format suitable for online display.",
+            "Sample value": ""
+        },
+        {
+            "Column": "image",
+            "Possible meaning": "Image file or URL associated with each product line.",
+            "Description": "This column is supposed to contain image files, URLs, or identifiers that link to images representing the products in a specific category. However, all values are currently null (missing).",
+            "Relationships with other columns": "It should complement 'productLine' and provide visual representation of each product line.",
+            "Sample value": ""
+        }
+    ]
+},
+{
+    "Data Dictionary for products.csv": [
+        {
+            "Column": "productCode",
+            "Possible meaning": "Unique identifier for each product.",
+            "Description": "A code assigned to uniquely identify a specific product within the inventory or catalog system.",
+            "Relationships with other columns": "This column is likely used as a foreign key in related tables such as orders, and it has one-to-one relationship with productName indicating unique products.",
+            "Sample value": "S10_1678"
+        },
+        {
+            "Column": "productName",
+            "Possible meaning": "The name of the product.",
+            "Description": "A descriptive name given to a specific product, which helps in identifying and distinguishing it from other products within the same category or line.",
+            "Relationships with other columns": "This column is directly related to productCode as each unique code corresponds to one productName. It also has an indirect relationship with quantityInStock indicating how many units of this named product are available.",
+            "Sample value": "1969 Harley Davidson Ultimate Chopper"
+        },
+        {
+            "Column": "productLine",
+            "Possible meaning": "The category or line the product belongs to.",
+            "Description": "A classification that groups products into broader categories based on their type, such as Motorcycles, Classic Cars, etc., which helps in organizing and managing inventory.",
+            "Relationships with other columns": "This column is related to productName since each product falls under a specific productLine. It also influences the range of values seen in buyPrice and MSRP due to different lines having varying price ranges.",
+            "Sample value": "Motorcycles"
+        },
+        {
+            "Column": "productScale",
+            "Possible meaning": "The scale at which the product is made, often used for models or replicas.",
+            "Description": "Indicates the size ratio of a model compared to its real-life counterpart. For example, 1:10 means that every unit in the model represents ten units on the actual object.",
+            "Relationships with other columns": "This column can be related to productLine and productName as certain lines or products may have specific scales more commonly associated with them.",
+            "Sample value": "1:10"
+        },
+        {
+            "Column": "productVendor",
+            "Possible meaning": "The vendor who supplies the product.",
+            "Description": "Identifies the supplier or manufacturer of a particular product, which can be useful for procurement and supply chain management purposes.",
+            "Relationships with other columns": "This column is related to productName as each product has one specific vendor. It also indirectly relates to buyPrice since different vendors might offer products at varying prices.",
+            "Sample value": "Min Lin Diecast"
+        },
+        {
+            "Column": "productDescription",
+            "Possible meaning": "A detailed description of the product's features and specifications.",
+            "Description": "Provides comprehensive information about a specific product, including its characteristics, materials used, functionality, etc., which helps customers in making informed decisions.",
+            "Relationships with other columns": "This column is directly related to productName as each product has one unique or similar description. It can also relate indirectly to MSRP and buyPrice by indicating the quality and features that justify a certain price point.",
+            "Sample value": "This replica features working kickstand, front suspension, gear-shift lever, footbrake lever, drive chain, wheels and steering."
+        },
+        {
+            "Column": "quantityInStock",
+            "Possible meaning": "The number of units currently available in stock for a product.",
+            "Description": "Represents the inventory level or quantity of each specific product that is immediately available for sale or distribution.",
+            "Relationships with other columns": "This column directly relates to productName as it indicates how many units of each named product are on hand. It can also be analyzed alongside buyPrice and MSRP to understand profitability per unit in stock.",
+            "Sample value": 7933
+        },
+        {
+            "Column": "buyPrice",
+            "Possible meaning": "The price at which the company buys or purchases a product from its vendor.",
+            "Description": "Indicates the cost incurred by the business to acquire each unit of a specific product, which is crucial for calculating profit margins and setting retail prices.",
+            "Relationships with other columns": "This column has direct relationships with productName as it specifies buyPrice per unique item. It also relates to MSRP in determining markup percentage or gross margin on sales.",
+            "Sample value": 48.81
+        },
+        {
+            "Column": "MSRP",
+            "Possible meaning": "Manufacturer's Suggested Retail Price, the recommended price at which a product should be sold.",
+            "Description": "The suggested retail price set by the manufacturer for their products, intended to guide retailers on pricing but not necessarily binding.",
+            "Relationships with other columns": "This column is directly related to productName and buyPrice as it indicates how much profit margin can be expected per unit. It also relates indirectly to quantityInStock in terms of potential revenue generation from available stock.",
+            "Sample value": 95.7
+        }
+    ]
+}
+]
+
+Based on the provided data dictionaries, here is a comprehensive review and identification of meaningful relationships among datasets to generate potential analytics use cases:
+
+### Use Case 1
+- **Use Case ID:** UC001
+- **Title:** Customer Payment Analysis
+- **Description:** Analyze payment trends by customer for better understanding of customer financial health and improving credit management.
+- **Data Sources:**
+    - customer.csv
+    - payments.csv
+- **Columns Utilized:**
+    - customer.csv.customerNumber
+    - customer.csv.customerName
+    - payments.csv.customerNumber
+    - payments.csv.paymentDate
+    - payments.csv.amount
+- **Relationships Leveraged:**
+    - The `customerNumber` column in `payments.csv` is linked to the same column in `customer.csv`, allowing the aggregation of payment amounts by customers and identifying high-value or frequent payers.
+
+---
+
+### Use Case 2
+- **Use Case ID:** UC002
+- **Title:** Sales Representative Performance Analysis
+- **Description:** Evaluate performance of sales representatives based on their assigned customer's orders, payments, and credit usage to identify top performers.
+- **Data Sources:**
+    - customer.csv
+    - employee.csv
+    - payments.csv
+    - orders.csv
+- **Columns Utilized:**
+    - customer.csv.customerNumber
+    - customer.csv.salesRepEmployeeNumber
+    - employee.csv.employeeNumber
+    - employee.csv.firstName
+    - employee.csv.lastName
+    - payments.csv.customerNumber
+    - orders.csv.orderDate
+    - orders.csv.status
+- **Relationships Leveraged:**
+    - The `salesRepEmployeeNumber` in `customer.csv` links to the `employeeNumber` in `employee.csv`, providing a way to track which sales representative is responsible for each customer.
+    - Combining this with payment and order data allows assessment of performance metrics like total value of payments received, number of orders processed, and order statuses.
+
+---
+
+### Use Case 3
+- **Use Case ID:** UC003
+- **Title:** Product Sales Analysis
+- **Description:** Analyze the sales trends for different products to identify top-selling items and areas needing improvement in inventory management.
+- **Data Sources:**
+    - orders.csv
+    - orderdetails.csv
+    - products.csv
+- **Columns Utilized:**
+    - orders.csv.orderNumber
+    - orders.csv.orderDate
+    - orderdetails.csv.productCode
+    - orderdetails.csv.quantityOrdered
+    - orderdetails.csv.priceEach
+    - products.csv.productName
+    - products.csv.MSRP
+- **Relationships Leveraged:**
+    - The `orderNumber` column in `orders.csv` is linked to the same column in `orderdetails.csv`, providing detailed line-item information for each order.
+    - By correlating this with product details (`productCode`), we can analyze which products are selling well, at what prices, and during which periods.
+
+---
+
+### Use Case 4
+- **Use Case ID:** UC004
+- **Title:** Inventory Optimization Based on Sales Data
+- **Description:** Analyze inventory levels in relation to sales volume for each product category to prevent overstocking or stockouts.
+- **Data Sources:**
+    - products.csv
+    - orderdetails.csv
+- **Columns Utilized:**
+    - products.csv.productCode
+    - products.csv.quantityInStock
+    - products.csv.MSRP
+    - products.csv.buyPrice
+    - orderdetails.csv.productCode
+    - orderdetails.csv.quantityOrdered
+- **Relationships Leveraged:**
+    - The `productCode` column in both `products.csv` and `orderdetails.csv` allows the correlation of inventory levels with sales data.
+    - This analysis can help identify product categories that are consistently overstocked or underperforming.
+
+---
+
+### Use Case 5
+- **Use Case ID:** UC005
+- **Title:** Employee Office Location Analysis
+- **Description:** Evaluate employee distribution across various office locations and territories to optimize resource allocation.
+- **Data Sources:**
+    - employee.csv
+    - office.csv
+- **Columns Utilized:**
+    - employee.csv.officeCode
+    - office.csv.officeCode
+    - office.csv.city
+    - office.csv.country
+    - office.csv.territory
+- **Relationships Leveraged:**
+    - The `officeCode` column in both datasets allows a join to analyze the number of employees per location and their respective territories.
+    - This can help identify staffing needs, regional efficiency, and potential areas for centralizing or decentralizing resources.
+
+---
+
+### Use Case 6
+- **Use Case ID:** UC006
+- **Title:** Customer Order Status Monitoring
+- **Description:** Track the status of customer orders to improve service levels by analyzing order processing times and identifying delays.
+- **Data Sources:**
+    - orders.csv
+    - customer.csv
+- **Columns Utilized:**
+    - orders.csv.orderNumber
+    - orders.csv.customerNumber
+    - orders.csv.orderDate
+    - orders.csv.requiredDate
+    - orders.csv.shippedDate
+    - customer.csv.customerName
+- **Relationships Leveraged:**
+    - The `customerNumber` in both datasets connects each order to the corresponding customer.
+    - By analyzing dates, we can determine processing times and identify any delays or inefficiencies.
+
+---
+
+These use cases leverage multiple relationships across different datasets to provide actionable insights. Each case utilizes columns directly from provided data dictionaries without assumptions beyond what is explicitly stated.
