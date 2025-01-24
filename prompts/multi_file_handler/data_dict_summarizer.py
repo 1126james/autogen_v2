@@ -21,7 +21,7 @@ def data_dict_summarizer_prompt():
         
         ```
         ### Use Case <Number>
-        - **Use Case ID:** UC<UniqueNumber>
+        - **Use Case ID:** C<UniqueNumber>
         - **Title:** <Descriptive Title of the Use Case>
         - **Description:** <Detailed explanation of the analytics use case, including the business objective it addresses and the insights it aims to generate.>
         - **Data Sources:**
@@ -34,27 +34,6 @@ def data_dict_summarizer_prompt():
             - <!-- List all relevant columns from the respective datasets -->
         - **Relationships Leveraged:**
             - <Description of how the columns are related (e.g., primary key, foreign key, common attributes) and how these relationships are utilized in the analysis.>
-        
-        ---
-        ```
-        
-        **Example:**
-        
-        ```
-        ### Use Case 1
-        - **Use Case ID:** UC001
-        - **Title:** Inventory Optimization Based on Product Categories
-        - **Description:** Analyze the `quantityInStock` in relation to `productLine` and `buyPrice` to identify overstocked or understocked categories, enabling better inventory management and cost optimization.
-        - **Data Sources:**
-            - products.csv
-            - productlines.csv
-        - **Columns Utilized:**
-            - products.csv.quantityInStock
-            - products.csv.buyPrice
-            - products.csv.productLine
-            - productlines.csv.productLine
-        - **Relationships Leveraged:**
-            - The `productLine` column in `products.csv` is related to the `productLine` column in `productlines.csv`, allowing categorization of inventory levels by product category.
         
         ---
         ```

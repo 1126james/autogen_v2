@@ -1,34 +1,153 @@
 import pandas as pd
 import numpy as np
 from pathlib import Path
-from typing import Dict, Any, Union
+from typing import Dict, Any, Union, List
 from tqdm import tqdm
 import json
 import asyncio
+import os
 
-async def _LoadDataset(file_path: Union[str, Path]) -> pd.DataFrame:
+class UnsupportedFileTypeError(Exception):
+    """Custom exception for unsupported file types"""
+    pass
+
+async def _LoadDataset(file_path: Union[str, Path], read_header_only: bool = False) -> pd.DataFrame:
     """
     Load various tabular data formats into a pandas DataFrame.
-    Supports CSV, Excel, and other common formats.
     
     Args:
         file_path (str or Path): Path to the dataset file.
+        read_header_only (bool): If True, only reads the header row (default: False)
     
     Returns:
         pd.DataFrame: Loaded DataFrame.
         
     Raises:
-        ValueError: If the file format is unsupported.
+        UnsupportedFileTypeError: If the file format is unsupported.
+        ValueError: If there are issues reading the file.
     """
     file_path = Path(file_path)
-    if file_path.suffix.lower() == '.csv':
-        return pd.read_csv(file_path)
-    elif file_path.suffix.lower() in ['.xlsx', '.xls']:
-        return pd.read_excel(file_path)
-    else:
-        raise ValueError(f"Unsupported file format: {file_path.suffix}")
+    ext = file_path.suffix.lower()
+    
+    try:
+        if ext == '.csv':
+            if read_header_only:
+                return pd.read_csv(file_path, nrows=0)
+            return pd.read_csv(file_path)
+            
+        elif ext in ['.xlsx', '.xls']:
+            if read_header_only:
+                return pd.read_excel(file_path, nrows=0)
+            return pd.read_excel(file_path)
+            
+        elif ext == '.parquet':
+            if read_header_only:
+                return pd.read_parquet(file_path, columns=None)
+            return pd.read_parquet(file_path)
+            
+        elif ext == '.json':
+            if read_header_only:
+                return pd.read_json(file_path, nrows=0)
+            return pd.read_json(file_path)
+            
+        else:
+            raise UnsupportedFileTypeError(
+                f"Extension '{ext}' is not yet supported. "
+                "Supported formats: .csv, .xlsx, .xls, .parquet, .json"
+            )
+            
+    except UnsupportedFileTypeError:
+        raise
+    except Exception as e:
+        raise ValueError(f"Error reading {file_path.name}: {str(e)}") from e
 
-async def GetDatasetProfile(root, file_name: str, output_format: str = 'markdown') -> Union[str, Dict[str, Any]]:
+class UnsupportedFileTypeError(Exception):
+    """Custom exception for unsupported file types"""
+    pass
+
+async def get_columns_sample(folder_path: str, file_name: str) -> str:
+    """
+    Asynchronously get columns and sample values from a specified file.
+    Returns a JSON string with dataset name as key and column info (including samples) as values.
+    
+    Args:
+        folder_path (str): Path to the folder containing the dataset
+        file_name (str): Name of the file to analyze
+        
+    Returns:
+        str: JSON string in format {
+            "dataset.csv": {
+                "col1": ["sample1", "sample2", "sample3"],
+                "col2": ["sample1", "sample2", "sample3"]
+            }
+        }
+    """
+    
+    async def _read_file_columns(file_path: Path) -> tuple[str, dict]:
+        """Helper function to read columns and sample values from a single file"""
+        try:
+            # First read with header only to check if file is valid
+            await _LoadDataset(file_path, read_header_only=True)
+            
+            # Then read actual data for samples
+            df = await _LoadDataset(file_path, read_header_only=False)
+            
+            # Create dictionary with column names and sample values
+            columns_dict = {}
+            for column in df.columns:
+                # Get first 3 non-null values if possible
+                samples = (df[column]
+                         .dropna()
+                         .head(3)
+                         .map(lambda x: str(x))  # Convert all values to strings
+                         .tolist())
+                
+                # Pad with None if less than 3 samples
+                while len(samples) < 3:
+                    samples.append(None)
+                    
+                columns_dict[column] = samples
+                
+            return file_path.name, columns_dict
+            
+        except UnsupportedFileTypeError as e:
+            print(f"Error with {file_path.name}: {str(e)}")
+            raise
+        except ValueError as e:
+            print(f"Error reading {file_path.name}: {str(e)}")
+            return file_path.name, {}
+        except Exception as e:
+            print(f"Unexpected error with {file_path.name}: {str(e)}")
+            return file_path.name, {}
+    
+    # Construct full file path and check if file exists
+    file_path = Path(folder_path) / file_name
+    if not file_path.is_file():
+        raise FileNotFoundError(f"File '{file_name}' not found in '{folder_path}'")
+    
+    # Check if file type is supported
+    supported_extensions = {'.csv', '.xlsx', '.xls', '.parquet', '.json'}
+    if file_path.suffix.lower() not in supported_extensions:
+        raise UnsupportedFileTypeError(
+            f"Extension '{file_path.suffix}' is not yet supported. "
+            "Supported formats: .csv, .xlsx, .xls, .parquet, .json"
+        )
+    
+    # Create and execute task for the file
+    task = asyncio.create_task(_read_file_columns(file_path))
+    result = await task
+    
+    # Convert result to dictionary, handling errors
+    result_dict = {}
+    if isinstance(result, tuple):  # Successful result
+        filename, columns_dict = result
+        if columns_dict:  # Only include if columns were successfully read
+            result_dict[filename] = columns_dict
+    
+    # Convert to JSON string with indentation for readability
+    return json.dumps(result_dict, indent=2)
+
+async def GetDatasetProfile(root, file_name: str, output_format: str = 'json') -> Union[str, Dict[str, Any]]:
     """
     Create a comprehensive profile of the dataset including statistics, metadata, and samples.
     
