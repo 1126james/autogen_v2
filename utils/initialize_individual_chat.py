@@ -17,6 +17,6 @@ async def initialize_individual_chat(filename: str, metadata, data_dict_generato
     )
     
     response = await file_handler.on_messages(
-        [TextMessage(content=f"You are a file handling agent for the file {filename}. The file metadata is as follow: {str(metadata)}. Suggest possible meanings and abbreviations of columns in the file.", source="user")], None
+        [TextMessage(content=f"You are a file handling agent for the file {filename}. The file metadata is as follow: {str(metadata)}.", source="user")], cancellation_token=None,
     )
     return response

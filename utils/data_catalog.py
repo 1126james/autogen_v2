@@ -1,11 +1,10 @@
 import pandas as pd
 import numpy as np
 from pathlib import Path
-from typing import Dict, Any, Union, List
+from typing import Dict, Any, Union, List, Optional
 from tqdm import tqdm
 import json
 import asyncio
-import os
 
 class UnsupportedFileTypeError(Exception):
     """Custom exception for unsupported file types"""
@@ -61,30 +60,29 @@ async def _LoadDataset(file_path: Union[str, Path], read_header_only: bool = Fal
     except Exception as e:
         raise ValueError(f"Error reading {file_path.name}: {str(e)}") from e
 
-class UnsupportedFileTypeError(Exception):
-    """Custom exception for unsupported file types"""
-    pass
-
-async def get_columns_sample(folder_path: str, file_name: str) -> str:
+async def get_columns_sample(folder_path: str, file_name: str) -> Dict[str, List[Optional[str]]]:
     """
     Asynchronously get columns and sample values from a specified file.
-    Returns a JSON string with dataset name as key and column info (including samples) as values.
+    Returns a dictionary with column names as keys and lists of sample values as values.
     
     Args:
-        folder_path (str): Path to the folder containing the dataset
-        file_name (str): Name of the file to analyze
+        folder_path (str): Path to the folder containing the dataset.
+        file_name (str): Name of the file to analyze.
         
     Returns:
-        str: JSON string in format {
-            "dataset.csv": {
-                "col1": ["sample1", "sample2", "sample3"],
-                "col2": ["sample1", "sample2", "sample3"]
-            }
+        Dict[str, List[Optional[str]]]: A dictionary in the format {
+            "column1": ["sample1", "sample2", "sample3"],
+            "column2": ["sample1", "sample2", "sample3"],
+            ...
         }
+        
+    Raises:
+        FileNotFoundError: If the specified file does not exist.
+        UnsupportedFileTypeError: If the file extension is not supported.
     """
     
-    async def _read_file_columns(file_path: Path) -> tuple[str, dict]:
-        """Helper function to read columns and sample values from a single file"""
+    async def _read_file_columns(file_path: Path) -> Dict[str, List[Optional[str]]]:
+        """Helper function to read columns and sample values from a single file."""
         try:
             # First read with header only to check if file is valid
             await _LoadDataset(file_path, read_header_only=True)
@@ -93,14 +91,16 @@ async def get_columns_sample(folder_path: str, file_name: str) -> str:
             df = await _LoadDataset(file_path, read_header_only=False)
             
             # Create dictionary with column names and sample values
-            columns_dict = {}
+            columns_dict: Dict[str, List[Optional[str]]] = {}
             for column in df.columns:
                 # Get first 3 non-null values if possible
-                samples = (df[column]
-                         .dropna()
-                         .head(3)
-                         .map(lambda x: str(x))  # Convert all values to strings
-                         .tolist())
+                samples = (
+                    df[column]
+                    .dropna()
+                    .head(3)
+                    .map(lambda x: str(x))  # Convert all values to strings
+                    .tolist()
+                )
                 
                 # Pad with None if less than 3 samples
                 while len(samples) < 3:
@@ -108,17 +108,17 @@ async def get_columns_sample(folder_path: str, file_name: str) -> str:
                     
                 columns_dict[column] = samples
                 
-            return file_path.name, columns_dict
-            
+            return columns_dict
+                
         except UnsupportedFileTypeError as e:
             print(f"Error with {file_path.name}: {str(e)}")
             raise
         except ValueError as e:
             print(f"Error reading {file_path.name}: {str(e)}")
-            return file_path.name, {}
+            return {}
         except Exception as e:
             print(f"Unexpected error with {file_path.name}: {str(e)}")
-            return file_path.name, {}
+            return {}
     
     # Construct full file path and check if file exists
     file_path = Path(folder_path) / file_name
@@ -135,19 +135,11 @@ async def get_columns_sample(folder_path: str, file_name: str) -> str:
     
     # Create and execute task for the file
     task = asyncio.create_task(_read_file_columns(file_path))
-    result = await task
+    columns_dict = await task
     
-    # Convert result to dictionary, handling errors
-    result_dict = {}
-    if isinstance(result, tuple):  # Successful result
-        filename, columns_dict = result
-        if columns_dict:  # Only include if columns were successfully read
-            result_dict[filename] = columns_dict
-    
-    # Convert to JSON string with indentation for readability
-    return json.dumps(result_dict, indent=2)
+    return columns_dict
 
-async def GetDatasetProfile(root, file_name: str, output_format: str = 'json') -> Union[str, Dict[str, Any]]:
+async def get_dataset_profile(root, file_name: str, output_format: str = 'json') -> Union[str, Dict[str, Any]]:
     """
     Create a comprehensive profile of the dataset including statistics, metadata, and samples.
     
@@ -310,11 +302,11 @@ if __name__ == "__main__":
     
     try:
         if input_method in ['md', 'markdown']:
-            profile = asyncio.run(GetDatasetProfile(filepath, output_format='markdown'))
+            profile = asyncio.run(get_dataset_profile(filepath, output_format='markdown'))
         elif input_method in ['nl', 'natural language']:
-            profile = asyncio.run(GetDatasetProfile(filepath, output_format='natural_language'))
+            profile = asyncio.run(get_dataset_profile(filepath, output_format='natural_language'))
         elif input_method == 'json':
-            profile = asyncio.run(GetDatasetProfile(filepath, output_format='json'))  # Dictionary
+            profile = asyncio.run(get_dataset_profile(filepath, output_format='json'))  # Dictionary
         print(profile)
     except ValueError as ve:
         error_message = {"error": str(ve)}
