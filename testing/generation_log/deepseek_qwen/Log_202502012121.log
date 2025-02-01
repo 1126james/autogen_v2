@@ -1,0 +1,628 @@
+<think>
+Alright, I need to create a data dictionary for the customer.csv file based on the provided metadata. Let me go through each column step by step.
+
+First, looking at 'customerNumber'. The sample values are '103', '112', and '114'. These look like identifiers, probably numeric codes without any specific pattern beyond being integers. So I'll note it as an Identifier format with nullable set to False since there's no null in the samples.
+
+Next is 'customerName' with names like 'Atelier graphique' and others. This is clearly text data, so the Format should be Text. It doesn't allow nulls based on the examples provided.
+
+Moving on to 'contactLastName', these are last names such as 'Schmitt'. Again, this is textual information, so I'll categorize it under Text format with nullable False.
+
+For 'contactFirstName', similar reasoning applies—these are first names like 'Carine' and should be marked as Text. No nulls here either.
+
+The 'phone' column has values like '40.32.2555'. This seems to follow a specific pattern, possibly an identifier with dots separating parts of the number. I'll describe it as an Identifier format without allowing nulls.
+
+Looking at 'addressLine1', entries are addresses such as '54, rue Royale'. These are free-form text strings, so Text is appropriate here. No indication of null values in the samples.
+
+'addressLine2' includes details like 'Level 3' and 'Suite 400'. This is also textual data, so I'll mark it as Text with nullable False.
+
+The 'city' column has city names like 'Nantes', which are text strings. Format should be Text, and no nulls allowed based on the examples.
+
+For 'state', values are abbreviations such as 'NV' for Nevada or 'CA'. This is categorical data representing states, so I'll note it as Categorical with nullable False.
+
+The 'postalCode' has entries like '44000' and '3004'. These look numeric but could be strings depending on the system. However, since they're numerical codes without decimal points, I'll classify them under Numeric format. They don't allow nulls as per the samples.
+
+In the 'country' column, we have country names like 'France', which are categorical data. So Format is Categorical with nullable False.
+
+The 'salesRepEmployeeNumber' has values such as '1370'. These seem to be identifiers for employees, so I'll mark them under Identifier format without allowing nulls.
+
+Lastly, 'creditLimit' shows numbers like '21000.0', which are decimal values. This is clearly numeric data with possible decimals, so Format should be Numeric (decimal). No nulls in the samples provided.
+
+I need to ensure each entry follows the specified output format strictly, providing descriptions and sample values accurately. Also, checking if any columns allow nulls based on the given metadata—since all sample values are present, I'll assume Nullable is False for all unless stated otherwise.
+</think>
+
+{
+   "Data Dictionary": {
+     "filename": "customer.csv",
+     "columns": [
+       {
+         "Column": "customerNumber",
+         "Description": "A unique identifier assigned to each customer.",
+         "Format": "Identifier (numeric)",
+         "Nullable": false,
+         "Sample Values": ["103", "112", "114"]
+       },
+       {
+         "Column": "customerName",
+         "Description": "The full name of the customer or business entity.",
+         "Format": "Text",
+         "Nullable": false,
+         "Sample Values": ["Atelier graphique", "Signal Gift Stores", "Australian Collectors, Co."]
+       },
+       {
+         "Column": "contactLastName",
+         "Description": "The last name of the primary contact person for the customer.",
+         "Format": "Text",
+         "Nullable": false,
+         "Sample Values": ["Schmitt", "King", "Ferguson"]
+       },
+       {
+         "Column": "contactFirstName",
+         "Description": "The first name of the primary contact person for the customer.",
+         "Format": "Text",
+         "Nullable": false,
+         "Sample Values": ["Carine ", "Jean", "Peter"]
+       },
+       {
+         "Column": "phone",
+         "Description": "The phone number associated with the customer's account.",
+         "Format": "Identifier (numeric with possible separators)",
+         "Nullable": false,
+         "Sample Values": ["40.32.2555", "7025551838", "03 9520 4555"]
+       },
+       {
+         "Column": "addressLine1",
+         "Description": "The first line of the customer's address.",
+         "Format": "Text",
+         "Nullable": false,
+         "Sample Values": ["54, rue Royale", "8489 Strong St.", "636 St Kilda Road"]
+       },
+       {
+         "Column": "addressLine2",
+         "Description": "The second line of the customer's address (optional).",
+         "Format": "Text",
+         "Nullable": false,
+         "Sample Values": ["Level 3", "Bronz Apt. 3/6 Tesvikiye", "Suite 400"]
+       },
+       {
+         "Column": "city",
+         "Description": "The city where the customer is located.",
+         "Format": "Text",
+         "Nullable": false,
+         "Sample Values": ["Nantes", "Las Vegas", "Melbourne"]
+       },
+       {
+         "Column": "state",
+         "Description": "The state or province where the customer is located (abbreviated).",
+         "Format": "Categorical (abbreviation)",
+         "Nullable": false,
+         "Sample Values": ["NV", "", ""]
+       },
+       {
+         "Column": "postalCode",
+         "Description": "The postal code associated with the customer's address.",
+         "Format": "Numeric",
+         "Nullable": false,
+         "Sample Values": ["44000", "", ""]
+       },
+       {
+         "Column": "country",
+         "Description": "The country where the customer is located.",
+         "Format": "Categorical (name)",
+         "Nullable": false,
+         "Sample Values": ["France", "", ""]
+       },
+       {
+         "Column": "salesRepEmployeeNumber",
+         "Description": "The unique identifier of the sales representative assigned to the customer's account.",
+         "Format": "Identifier (numeric)",
+         "Nullable": false,
+         "Sample Values": ["1370", "", ""]
+       },
+       {
+         "Column": "creditLimit",
+         "Description": "The maximum credit limit allowed for the customer's account.",
+         "Format": "Numeric (decimal)",
+         "Nullable": false,
+         "Sample Values": ["21000.0", "", ""]
+       }
+     ]
+   }
+}
+<think>
+Alright, I need to create a data dictionary for the employee.csv file based on the provided metadata. Let me go through each column step by step.
+
+First, looking at 'employeeNumber'. The sample values are numeric strings like '1002', so it's an identifier without any specific pattern beyond being numbers. It doesn't allow nulls since every entry has a number.
+
+Next is 'lastName' and 'firstName'. Both contain text strings with names, no special characters or patterns. They shouldn't have nulls as all employees must have these details.
+
+The 'extension' column has values like 'x5800', which seems to be an identifier starting with 'x' followed by numbers. It's a categorical string and likely not nullable since every employee probably has an extension.
+
+For 'email', the samples are valid email addresses, so it's text data. This is also non-nullable as each employee should have an email.
+
+The 'officeCode' uses numeric strings like '1'. Since it can be null (some employees might work remotely), I'll mark it as nullable and note that it's a categorical identifier.
+
+Looking at 'reportsTo', the values are either '0' or another employee number. This is also an identifier, but since some entries have '0', which could mean no supervisor, this column should be nullable.
+
+Lastly, 'jobTitle' contains text strings like 'President'. It's non-nullable as every position has a title.
+
+I need to ensure each entry follows the specified output format with correct data types and sample values. Double-checking for any possible nulls or specific patterns I might have missed.
+</think>
+
+```json
+{
+   "Data Dictionary": {
+     "filename": "employee.csv",
+     "columns": [
+       {
+         "Column": "employeeNumber",
+         "Description": "Unique identifier for each employee.",
+         "Format": "Identifier (numeric string)",
+         "Nullable": false,
+         "Sample Values": ["1002", "1056", "1076"]
+       },
+       {
+         "Column": "lastName",
+         "Description": "Last name of the employee.",
+         "Format": "Text",
+         "Nullable": false,
+         "Sample Values": ["Murphy", "Patterson", "Firrelli"]
+       },
+       {
+         "Column": "firstName",
+         "Description": "First name of the employee.",
+         "Format": "Text",
+         "Nullable": false,
+         "Sample Values": ["Diane", "Mary", "Jeff"]
+       },
+       {
+         "Column": "extension",
+         "Description": "Extension number for the employee's phone.",
+         "Format": "Identifier (string starting with 'x' followed by numbers)",
+         "Nullable": false,
+         "Sample Values": ["x5800", "x4611", "x9273"]
+       },
+       {
+         "Column": "email",
+         "Description": "Email address of the employee.",
+         "Format": "Text (email format)",
+         "Nullable": false,
+         "Sample Values": [
+           "dmurphy@classicmodelcars.
+<think>
+Alright, I need to create a data dictionary for the office.csv file based on the provided metadata. Let me go through each column step by step.
+
+First, looking at 'officeCode'. The sample values are '1', '2', '3'. It seems like these are identifiers, probably numeric codes assigned to each office. So I'll describe it as an identifier and note that it's a string representation of integers. Since all samples have values, nullable is False.
+
+Next up is 'city'. The samples include full city names like San Francisco, Boston, NYC. This is clearly categorical data representing different cities. It doesn't allow nulls based on the examples provided.
+
+The 'phone' column has international phone numbers with a specific format: '+1 followed by area code and number. I'll classify this as text since it's not just numeric but includes symbols and spaces for formatting. Nullable should be False because all entries have values.
+
+For 'addressLine1', each entry is a street address, which is free-form text. It doesn't follow any specific pattern beyond being descriptive strings about the location. No nulls here either.
+
+'addressLine2' contains suite or apartment numbers, like Suite 300 or apt. 5A. This is also categorical data as it describes parts of an address but in a more specific manner than line1. Again, no null values are present.
+
+The 'state' column uses two-letter abbreviations for states (CA, MA, NY). It's categorical and represents regions within the country. All entries have valid state codes, so nullable is False.
+
+In 'country', all samples show 'USA'. This is a categorical field indicating nationality or region. Since it's consistent across entries, I'll note that as well.
+
+'postalCode' consists of five-digit numbers like 94080. It's numeric and used for mailing addresses. All examples have values, so nullable is False.
+
+Lastly, 'territory' has codes like EMEA, Japan, APAC. These are categorical regions used for organizational purposes. Each entry has a valid territory code without any nulls.
+
+I need to ensure each column follows the specified format: description, data type with explanation if needed, whether it allows nulls, and sample values. I'll structure this into JSON as per the output format provided.
+</think>
+
+```json
+{
+   "Data Dictionary": {
+     "filename": "office.csv",
+     "columns": [
+       {
+         "Column": "officeCode",
+         "Description": "A unique identifier for each office.",
+         "Format": "Identifier (string representation of integers)",
+         "Nullable": false,
+         "Sample Values": ["1", "2", "3"]
+       },
+       {
+         "Column": "city",
+         "Description": "The city where the office is located.",
+         "Format": "Categorical (full city names)",
+         "Nullable": false,
+         "Sample Values": ["San Francisco", "Boston", "NYC"]
+       },
+       {
+         "Column": "phone",
+         "Description": "The phone number of the office, including country code.",
+         "Format": "Text (international phone format with symbols and spaces)",
+         "Nullable": false,
+         "Sample Values": ["+1 650 219 4782", "+1 215 837 0825", "+1 212 555 3000"]
+       },
+       {
+         "Column": "addressLine1",
+         "Description": "The first line of the office's street address.",
+         "Format": "Text (free-form text describing the location)",
+         "Nullable": false,
+         "Sample Values": ["100 Market Street", "1550 Court Place", "523 East 53rd Street"]
+       },
+       {
+         "Column": "addressLine2",
+         "Description": "The second line of the office's street address, such as suite or apartment number.",
+         "Format": "Categorical (descriptive strings like 'Suite' or 'apt.')",
+         "Nullable": false,
+         "Sample Values": ["Suite 300", "Suite 102", "apt. 5A"]
+       },
+       {
+         "Column": "state",
+         "Description": "The state where the office is located, represented by its two-letter abbreviation.",
+         "Format": "Categorical (two-letter state codes)",
+         "Nullable": false,
+         "Sample Values": ["CA", "MA", "NY"]
+       },
+       {
+         "Column": "country",
+         "Description": "The country where the office is located.",
+         "Format": "Categorical (full country names)",
+         "Nullable": false,
+         "Sample Values": ["USA", "USA", "USA"]
+       },
+       {
+         "Column": "postalCode",
+         "Description": "The postal code for the office's address.",
+         "Format": "Numeric (five-digit integer string)",
+         "Nullable": false,
+         "Sample Values": ["94080", "02107", "10022"]
+       },
+       {
+         "Column": "territory",
+         "Description": "The territory or region associated with the office, represented by codes.",
+         "Format": "Categorical (region codes like EMEA, Japan, APAC)",
+         "Nullable": false,
+         "Sample Values": ["EMEA", "Japan", "APAC"]
+       }
+     ]
+   }
+}
+```
+<think>
+Alright, I need to create a data dictionary for the orderdetails.csv file based on the provided metadata. Let me go through each column step by step.
+
+First, looking at 'orderNumber'. The sample values are all five-digit strings starting with '10'. This seems like an identifier. It's likely that this field is used to uniquely identify orders. Since there are no nulls in the samples, I'll assume it's not nullable. So, description would be about order identification, format as identifier (starts with 10 followed by three digits), non-nullable.
+
+Next up is 'productCode'. The sample values start with 'S' and have numbers after an underscore. This looks like a categorical code for products. It doesn't seem to allow nulls based on the samples provided. So, description would explain it's a product identifier, format as text following SXX_XXXX pattern.
+
+Moving to 'quantityOrdered'. The sample values are all integers without decimals. Since orders can have zero items in some cases, I'll note that this field is nullable. Description should state it represents the count of products ordered, numeric integer type.
+
+Then there's 'priceEach'. These are decimal numbers with two places after the dot. Prices could be zero if an item is free, so nullable set to true. The description will mention unit price in currency, format as numeric decimal.
+
+Lastly, 'orderLineNumber' has small integers like 2,3,4. This field likely indicates the position of items within an order and probably doesn't allow nulls since every line should have a number. Description would explain it's the sequence within the order, numeric integer type.
+
+I need to make sure each entry follows the specified output format with all required fields: Column name, description, format, nullable status, and sample values.
+</think>
+
+```json
+{
+   "Data Dictionary": {
+     "filename": "orderdetails.csv",
+     "columns": [
+       {
+         "Column": "orderNumber",
+         "Description": "A unique identifier for each order.",
+         "Format": "Identifier (starts with 10 followed by three digits)",
+         "Nullable": false,
+         "Sample Values": ["10100", "10100", "10100"]
+       },
+       {
+         "Column": "productCode",
+         "Description": "A unique code representing each product.",
+         "Format": "Text (e.g., S followed by numbers and an underscore)",
+         "Nullable": false,
+         "Sample Values": ["S18_1749", "S18_2248", "S18_4409"]
+       },
+       {
+         "Column": "quantityOrdered",
+         "Description": "The number of items ordered for a specific product.",
+         "Format": "Numeric (integer)",
+         "Nullable": true,
+         "Sample Values": ["30", "50", "22"]
+       },
+       {
+         "Column": "priceEach",
+         "Description": "The price per unit of the product ordered.",
+         "Format": "Numeric (decimal with two places)",
+         "Nullable": true,
+         "Sample Values": ["136.0", "55.09", "75.46"]
+       },
+       {
+         "Column": "orderLineNumber",
+         "Description": "The line number within the order, indicating the sequence of items.",
+         "Format": "Numeric (integer)",
+         "Nullable": false,
+         "Sample Values": ["3", "2", "4"]
+       }
+     ]
+   }
+}
+```
+<think>
+Alright, I'm looking at the user's query where they want me to generate a data dictionary for their orders.csv file. The metadata provided includes several columns with sample values.
+
+First, I need to understand each column's purpose and format. Starting with 'orderNumber', it looks like an identifier since all samples are numeric strings starting with 101 followed by three digits. So the format is Identifier, not nullable because there are no nulls in the samples provided.
+
+Next, 'orderDate' has dates formatted as YYYY-MM-DD. That's straightforward; I'll note it as Datetime with that specific format and mark it as non-nullable since all entries have a date.
+
+Moving on to 'requiredDate', similar to orderDate, these are also dates in the same format. So again, Datetime with YYYY-MM-DD and not nullable.
+
+For 'shippedDate', same pattern applies—Datetime formatted consistently without nulls.
+
+The 'status' column has categorical data since it only contains one value repeated across samples. I'll classify this as Categorical and note that it's non-nullable.
+
+Looking at 'comments', these are free-form text strings, so the format is Text. They might allow null values if some orders don't have comments, but based on the sample provided, all entries have a comment. However, since the user didn't specify any nulls here, I'll mark it as nullable just in case.
+
+Lastly, 'customerNumber' seems to be an identifier with numeric strings of varying lengths. So format is Identifier and not nullable because there are no null samples.
+
+I need to ensure each entry follows the specified output format strictly, providing descriptions, formats, nullability, and sample values accurately without any extra commentary.
+</think>
+
+```json
+{
+   "Data Dictionary": {
+     "filename": "orders.csv",
+     "columns": [
+       {
+         "Column": "orderNumber",
+         "Description": "A unique identifier for each order.",
+         "Format": "Identifier (numeric string)",
+         "Nullable": false,
+         "Sample Values": ["10100", "10101", "10102"]
+       },
+       {
+         "Column": "orderDate",
+         "Description": "The date when the order was placed.",
+         "Format": "Datetime (YYYY-MM-DD)",
+         "Nullable": false,
+         "Sample Values": ["2003-01-06", "2003-01-09", "2003-01-10"]
+       },
+       {
+         "Column": "requiredDate",
+         "Description": "The date by which the order is required to be completed.",
+         "Format": "Datetime (YYYY-MM-DD)",
+         "Nullable": false,
+         "Sample Values": ["2003-01-13", "2003-01-18", "2003-01-18"]
+       },
+       {
+         "Column": "shippedDate",
+         "Description": "The date when the order was shipped.",
+         "Format": "Datetime (YYYY-MM-DD)",
+         "Nullable": false,
+         "Sample Values": ["2003-01-10", "2003-01-11", "2003-01-14"]
+       },
+       {
+         "Column": "status",
+         "Description": "The current status of the order (e.g., Shipped, On Hold).",
+         "Format": "Categorical",
+         "Nullable": false,
+         "Sample Values": ["Shipped", "Shipped", "Shipped"]
+       },
+       {
+         "Column": "comments",
+         "Description": "Additional notes or comments related to the order.",
+         "Format": "Text (free-form string)",
+         "Nullable": true,
+         "Sample Values": [
+           "Check on availability.",
+           "Difficult to negotiate with customer. We need more marketing materials",
+           "Customer requested that FedEx Ground is used for this shipping"
+         ]
+       },
+       {
+         "Column": "customerNumber",
+         "Description": "A unique identifier for the customer associated with the order.",
+         "Format": "Identifier (numeric string)",
+         "Nullable": false,
+         "Sample Values": ["363", "128", "181"]
+       }
+     ]
+   }
+}
+```
+<think>
+Alright, I need to create a data dictionary for the payments.csv file based on the provided metadata. Let me go through each column step by step.
+
+First, looking at 'customerNumber'. The sample values are all three-digit numbers like '103', so it's an identifier. It doesn't seem nullable since there are no nulls in the samples, and I assume every payment has a customer number.
+
+Next is 'checkNumber'. These look like alphanumeric codes starting with two letters followed by six digits, such as 'HQ336336'. This should be categorized under Identifier format. Again, assuming it's not nullable because each check must have a unique identifier.
+
+Then there's 'paymentDate' with dates in the format YYYY-MM-DD. That’s straightforward—Datetime is the correct format here. Since all sample entries are valid dates without nulls, I'll mark this as non-nullable.
+
+Lastly, 'amount' shows decimal numbers like '6066.78'. This should be Numeric, specifically a float with two decimal places for currency values. All samples have amounts, so it's not nullable either.
+
+I need to ensure each entry follows the specified output format precisely without any extra information or actions beyond what’s required.
+</think>
+
+```json
+{
+   "Data Dictionary": {
+     "filename": "payments.csv",
+     "columns": [
+       {
+         "Column": "customerNumber",
+         "Description": "A unique identifier for the customer associated with the payment.",
+         "Format": "Identifier (3-digit number)",
+         "Nullable": false,
+         "Sample Values": ["103", "103", "103"]
+       },
+       {
+         "Column": "checkNumber",
+         "Description": "A unique identifier for the check used in the payment.",
+         "Format": "Identifier (2 letters followed by 6 digits)",
+         "Nullable": false,
+         "Sample Values": ["HQ336336", "JM555205", "OM314933"]
+       },
+       {
+         "Column": "paymentDate",
+         "Description": "The date when the payment was made.",
+         "Format": "Datetime (YYYY-MM-DD)",
+         "Nullable": false,
+         "Sample Values": ["2004-10-19", "2003-06-05", "2004-12-18"]
+       },
+       {
+         "Column": "amount",
+         "Description": "The monetary amount of the payment.",
+         "Format": "Numeric (decimal with 2 places)",
+         "Nullable": false,
+         "Sample Values": ["6066.78", "14571.44", "1676.14"]
+       }
+     ]
+   }
+}
+```
+<think>
+Okay, I need to create a data dictionary for the productlines.csv file based on the provided metadata. Let me go through each column step by step.
+
+First, looking at 'productLine'. The sample values are 'Classic Cars', 'Motorcycles', and 'Planes'. This seems categorical since it's labeling different types of products. It doesn't allow nulls because all entries have a product line. So the format is Categorical, Nullable is False.
+
+Next up is 'textDescription'. These are long strings explaining each product line. The sample values include detailed descriptions about features and models. Since these are free-form texts, the format should be Text. It's also nullable if any entry has None, but in this case, all samples have text, so I'll note Nullable as False.
+
+Then there's 'htmlDescription'. All sample values here are None. This suggests that either the data isn't available or it's optional. The format is probably Text since HTML descriptions would be strings, and since they can be null, Nullable should be True.
+
+Lastly, the 'image' column has all samples as None. Similar to htmlDescription, this might mean images aren't provided yet or are optional. So the format could be a file path or URL if available, but since it's always None here, I'll consider it Text (assuming image paths would be strings) and mark Nullable as True.
+
+I need to make sure each entry follows the specified output format with all required fields: Column name, Description, Format, Nullable status, and Sample Values. Also, ensure that descriptions are clear without any markdown or extra formatting.
+</think>
+
+```json
+{
+   "Data Dictionary": {
+     "filename": "productlines.csv",
+     "columns": [
+       {
+         "Column": "productLine",
+         "Description": "Identifies the category of products available.",
+         "Format": "Categorical",
+         "Nullable": false,
+         "Sample Values": ["Classic Cars", "Motorcycles", "Planes"]
+       },
+       {
+         "Column": "textDescription",
+         "Description": "Provides a detailed textual description of each product line, highlighting features and specifications.",
+         "Format": "Text",
+         "Nullable": false,
+         "Sample Values": [
+           "Attention car enthusiasts: Make your wildest car ownership dreams come true...",
+           "Our motorcycles are state of the art replicas of classic as well as contemporary motorcycle legends such as Harley Davidson, Ducati and Vespa...",
+           "Unique, diecast airplane and helicopter replicas suitable for collections..."
+         ]
+       },
+       {
+         "Column": "htmlDescription",
+         "Description": "Contains HTML formatted descriptions for each product line. Currently contains None values.",
+         "Format": "Text",
+         "Nullable": true,
+         "Sample Values": [null, null, null]
+       },
+       {
+         "Column": "image",
+         "Description": "Specifies the image associated with each product line. Currently contains None values.",
+         "Format": "Text",
+         "Nullable": true,
+         "Sample Values": [null, null, null]
+       }
+     ]
+   }
+}
+```
+<think>
+Alright, I need to create a data dictionary for the products.csv file based on the provided metadata. Let me go through each column step by step.
+
+First, looking at 'productCode'. The sample values are like 'S10_1678', which seems to be an identifier. It starts with letters followed by numbers and underscores. So, I'll note that as an Identifier format. Since there's no null in the samples, I assume it's not nullable.
+
+Next is 'productName'. These are names of products like motorcycles or cars. They're text strings without any specific pattern, so Format should be Text. Again, no nulls here.
+
+Moving on to 'productLine'. The values are categories like Motorcycles and Classic Cars. This is a categorical field, so I'll mark it as Categorical. No nulls in the samples.
+
+'productScale' has entries like '1:10', which indicates scale ratios. It's text but follows a specific pattern, so maybe Identifier? Or perhaps Text since it's more about representation than an ID. Hmm, considering it's a ratio format, I'll go with Categorical as it represents different scales.
+
+For 'productVendor', these are company names like Min Lin Diecast. They're textual and don't follow any particular identifier pattern, so Format is Text. No nulls here either.
+
+'productDescription' contains detailed descriptions of the products. These are long text strings, so Format should be Text. Again, no nulls in the samples provided.
+
+Looking at 'quantityInStock', the values are numbers like 7933. They're integers representing stock quantities. So, Numeric format with integer type. No nulls here.
+
+'buyPrice' and 'MSRP' both have decimal numbers, so their Format is Numeric with decimals. Both seem to be non-nullable based on the samples.
+
+I need to ensure each entry follows the specified output format strictly, without any extra information or deviations.
+</think>
+
+```json
+{
+   "Data Dictionary": {
+     "filename": "products.csv",
+     "columns": [
+       {
+         "Column": "productCode",
+         "Description": "Unique identifier for each product.",
+         "Format": "Identifier (e.g., S10_1678)",
+         "Nullable": false,
+         "Sample Values": ["S10_1678", "S10_1949", "S10_2016"]
+       },
+       {
+         "Column": "productName",
+         "Description": "Name of the product.",
+         "Format": "Text",
+         "Nullable": false,
+         "Sample Values": ["1969 Harley Davidson Ultimate Chopper", "1952 Alpine Renault 1300", "1996 Moto Guzzi 1100i"]
+       },
+       {
+         "Column": "productLine",
+         "Description": "Category or line to which the product belongs.",
+         "Format": "Categorical",
+         "Nullable": false,
+         "Sample Values": ["Motorcycles", "Classic Cars", "Motorcycles"]
+       },
+       {
+         "Column": "productScale",
+         "Description": "Scale of the product model.",
+         "Format": "Identifier (e.g., 1:10)",
+         "Nullable": false,
+         "Sample Values": ["1:10", "1:10", "1:10"]
+       },
+       {
+         "Column": "productVendor",
+         "Description": "Vendor or manufacturer of the product.",
+         "Format": "Text",
+         "Nullable": false,
+         "Sample Values": ["Min Lin Diecast", "Classic Metal Creations", "Highway 66 Mini Classics"]
+       },
+       {
+         "Column": "productDescription",
+         "Description": "Detailed description of the product's features and specifications.",
+         "Format": "Text",
+         "Nullable": false,
+         "Sample Values": ["This replica features working kickstand, front suspension, gear-shift lever, footbrake lever, drive chain, wheels and steering. All parts are particularly delicate due to their precise scale and require special care and attention.", "Turnable front wheels, steering function, detailed interior, detailed engine, opening hood, opening trunk, opening doors, and detailed chassis.", "Official Moto Guzzi logos and insignias, saddle bags located on side of motorcycle, detailed engine, working steering, working suspension, two leather seats, luggage rack, dual exhaust pipes, small saddle bag located on handle bars, two-tone paint with chrome accents, superior die-cast detail  , rotating wheels  , working kick stand, diecast metal with plastic parts and baked enamel finish."]
+       },
+       {
+         "Column": "quantityInStock",
+         "Description": "Number of units currently in stock.",
+         "Format": "Numeric (Integer)",
+         "Nullable": false,
+         "Sample Values": ["7933", "7305", "6625"]
+       },
+       {
+         "Column": "buyPrice",
+         "Description": "Price at which the product is purchased from the vendor.",
+         "Format": "Numeric (Decimal)",
+         "Nullable": false,
+         "Sample Values": ["48.81", "98.58", "68.99"]
+       },
+       {
+         "Column": "MSRP",
+         "Description": "Manufacturer's suggested retail price for the product.",
+         "Format": "Numeric (Decimal)",
+         "Nullable": false,
+         "Sample Values": ["420.00", "350.00", "675.00"]
+       }
+     ]
+   }
+}
+```
