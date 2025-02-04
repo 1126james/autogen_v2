@@ -1,10 +1,17 @@
+# Somehow in mac, it cant find local packages
+# Run this to solve no local modules found in mac
+import os
+import sys
+
+# Get the project root directory (assuming your notebook is in a subdirectory)
+project_root = os.path.abspath(os.path.join(os.getcwd(), '..'))
+if project_root not in sys.path:
+    sys.path.append(project_root)
+
+
 # Python lib
 import asyncio
-from pathlib import Path
-import pandas as pd
-from tqdm import tqdm
-from typing import Dict, Any, Tuple
-import venv
+import os
 
 # Autogen-0.4
 from autogen_agentchat.agents import AssistantAgent
@@ -13,135 +20,124 @@ from autogen_agentchat.conditions import TextMentionTermination, MaxMessageTermi
 from autogen_agentchat.messages import TextMessage
 from autogen_agentchat.teams import RoundRobinGroupChat
 from autogen_agentchat.ui import Console
-from autogen_ext.code_executors.local import LocalCommandLineCodeExecutor
 from autogen_ext.models.openai import OpenAIChatCompletionClient
+from autogen_ext.models.openai.config import OpenAIClientConfigurationConfigModel
 from autogen_core.model_context import BufferedChatCompletionContext
 
 # Local
-from prompts import cleaning_reasoning_prompt, cleaning_checking_prompt
-from utils import CopyFile, LoadDataset, GetDatasetProfile, Spinner
+from utils import GetDatasetProfile, initialize_individual_chat, jsonify_prompt
+from prompts import data_dict_summarizer_prompt
 
-# Only edit here AND filepath under if __name__ == "__main__":
-reasoning_model = "qwen2.5:32b-instruct-q8_0"
+# Only edit here AND under if __name__ == "__main__":
+summarizer_model = "qwen2.5:32b-instruct-q8_0-32768"
+generator_model = "qwen2.5:32b-instruct-q8_0"
 coding_model = "qwen2.5-coder:32b-instruct-q8_0"
 
 # Common config
 llm_base_url = "http://34.204.63.234:11434/v1"
 api_key = "none"
-capabilities =  {
+model_info =  {
         "vision": False,
         "function_calling": False,
-        "json_output": False
+        "json_output": True,
+        "family": "Qwen2.5"
     }
+
+# Create reasoning config
+# Need to be more creative
+data_dict_summarizer_config = OpenAIClientConfigurationConfigModel(
+    frequency_penalty=0.2, 
+    logit_bias=None, 
+    max_tokens=128000, 
+    n=None, 
+    presence_penalty=0.5, 
+    response_format=None, 
+    seed=42, 
+    stop=None, 
+    temperature=0.8, 
+    top_p=0.95, 
+    user=None,
+    model=summarizer_model,
+    api_key='none', 
+    timeout=None, 
+    max_retries=None, 
+    model_info=model_info, 
+    organization=None, 
+    base_url='http://34.204.63.234:11434/v1'
+    )
+
+# Just generate the data dict based on obervered facts (less creative)
+data_dict_generator_config = OpenAIClientConfigurationConfigModel(
+    frequency_penalty=0.4, 
+    logit_bias=None, 
+    max_tokens=2048, 
+    n=None, 
+    presence_penalty=0.3, 
+    response_format={"type": "json_object"},
+    seed=42, 
+    stop=None, 
+    temperature=0.2, 
+    top_p=0.7, 
+    user=None,
+    model=generator_model,
+    api_key='none', 
+    timeout=None, 
+    max_retries=None, 
+    model_info=model_info, 
+    organization=None, 
+    base_url='http://34.204.63.234:11434/v1'
+    )
 
 #######################################################################
 #   !!! DONT EDIT BELOW EXCEPT FOR if __name__ == "__main__":   !!!   #
 #######################################################################
+async def main(results):
+    # define the clients
+    data_dict_summarizer_client = OpenAIChatCompletionClient(model=summarizer_model, model_info=model_info)._from_config(data_dict_summarizer_config)
+    data_dict_generator_client = OpenAIChatCompletionClient(model=generator_model, model_info=model_info)._from_config(data_dict_generator_config)
 
-# Reasoning Model Configuration
-instruct_client_config = OpenAIChatCompletionClient(
-    model=reasoning_model,
-    base_url=llm_base_url,
-    api_key=api_key,
-    model_capabilities=capabilities
-)
+    # Create a list of tasks for all agents
+    generator_tasks = [initialize_individual_chat(filename=results[index][0], metadata=results[index][1], data_dict_generator_client=data_dict_generator_client) for index in range(len(results))]
 
-# Coding Model Configuration
-code_client_config = OpenAIChatCompletionClient(
-    model=coding_model,
-    base_url=llm_base_url,
-    api_key=api_key,
-    model_capabilities=capabilities
-)
+    # Execute all agent chat tasks concurrently
+    responses = await asyncio.gather(*generator_tasks)
 
-async def create_cleaning_agents(filepath: Path) -> Tuple[AssistantAgent, AssistantAgent]:
-    
-    # tqdm progress bar
-    with tqdm(total=3,
-             desc="Creating cleaning reasoning team agents",
-             bar_format='{desc:>30}{postfix: <1} {bar}|{n_fmt:>4}/{total_fmt:<4}',
-             colour='green') as pbar:
-        
-        ### 1.1 Cleaning reasoning agent - 1
-        async def create_cleaning_reasoning_1():
-            Data_Cleaning_Planner = AssistantAgent(
-                name="Data_Cleaning_Planner",
-                model_client=instruct_client_config,
-                system_message=cleaning_reasoning_prompt(filepath),
-            )
-            pbar.update(1)
-            return Data_Cleaning_Planner
-        
-        async def create_cleaning_reasoning_2():
-            Validation_Assistant = AssistantAgent(
-                name="Validation_Assistant",
-                model_client=instruct_client_config,
-                system_message=cleaning_checking_prompt(filepath),
-            )
-            pbar.update(1)
-            return Validation_Assistant
-        
-        list_of_cleaning_reasoning_agents = await asyncio.gather(
-            create_cleaning_reasoning_1(),
-            create_cleaning_reasoning_2(),
+    # Convert the responses to list of json responses
+    json_response, file_name = await jsonify_prompt(responses)
+
+    # Combine json responses with an initial task message
+    initial_task = [TextMessage(content=f"Review the data dictionary generated by the file handling agents.",source="user")]
+    json_response.extend(initial_task)
+
+    # Initialize summarizer agent
+    final_agent = AssistantAgent(name="Data_Dictionary_Analytics_Suggester",
+                                 model_client=data_dict_summarizer_client,
+                                 system_message=data_dict_summarizer_prompt()
+    )
+
+    response = await final_agent.on_messages(
+            [TextMessage(content=f"{json_response}\n\nReview the above data dictionary.\n\n{json_response}",source="user")], None
         )
-        pbar.update(1)
-        return list_of_cleaning_reasoning_agents
-    
+    return response.chat_message.content, file_name
 
-async def cleaning_reasoning_pipeline(data_dict: Dict[str, Any], filepath: Path):
-    """
-    Run the complete data cleaning and transformation pipeline
-    """
-    try:
-        # cleaning_reasoning_agent, 
-        cleaning_reasoning_team = await create_cleaning_agents(filepath)
-        # cleaning_team = [cleaning_team[0], cleaning_team[1]]
-        
-        # Setup termination conditions
-        statusu_pass = TextMentionTermination("Overall Status: Pass")
-        max_round = MaxMessageTermination(5)
-        termination = statusu_pass | max_round
-
-        # First phase: Data Cleaning (Reasoning)
-        cleaning_team_chat = RoundRobinGroupChat(
-            cleaning_reasoning_team,
-            termination_condition=termination,
-        )
-        
-        # Save last n messages
-        context = BufferedChatCompletionContext(buffer_size=1)
-        
-        # A loading spinner to know if the code is frozen or not
-        run_task = Spinner.async_with_spinner(
-            message="Loading: ",
-            style="braille",
-            console_class=Console,
-            coroutine=cleaning_team_chat.run_stream(task=cleaning_reasoning_prompt(filepath, data_dict), cancellation_token=None)
-        )
-
-        await run_task
-        
-        # Uncomment below to run the code without spinner
-        # from autogen_agentchat.ui import Console
-        # await cleaning_team_chat.run_stream(task=cleaning_reasoning_prompt(filepath, data_dict), cancellation_token=None)
-        
-    except Exception as e:
-        raise Exception(f"An error occurred: {str(e)}")
 
 if __name__ == "__main__":
-    with tqdm(total=3,
-              desc="Preparing dataset",
-              bar_format='{desc:>30}{postfix: <1} {bar}|{n_fmt:>4}/{total_fmt:<4}',
-              colour='green') as pbar:
-        # Edit file path
-        test_file = Path("sheets/sample2.csv")
-        pbar.update(1)
-        df = LoadDataset(test_file)
-        pbar.update(1)
-        # Custom function in utils/ to get data dict in markdown/natural language/json format
-        initial_profile = GetDatasetProfile(df, output_format="json")
-        pbar.update(1)
+    async def run():
+        root = '../sheets/mysql/'
+        # Get all filenames that should be processed in the directory
+        files: list[str] = os.listdir(path=root)
+        
+        # Create and run a list of tasks to process each file
+        tasks = [GetDatasetProfile(root, file_name = file, output_format='json') for file in files]
+        results = await asyncio.gather(*tasks)
 
-    asyncio.run(cleaning_reasoning_pipeline(initial_profile, test_file))
+        # Combine the results with the filenames
+        result_dict = list(zip(files, results))
+        
+        # Run the main function
+        suggestion, file_name = await main(result_dict)
+        print(suggestion)
+        with open(file_name, "a") as f:
+            f.write("\n\n"+suggestion)
 
+    asyncio.run(run())
