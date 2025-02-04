@@ -56,5 +56,5 @@ async def jsonify_prompt(responses):
         # Write closing bracket
         f.write(']')
         
-    print(f"Data saved to: {filepath}")
+    print(f"\nData saved to: {filepath}")
     return json_response, filepath  # Return filename for reference

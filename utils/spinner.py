@@ -9,7 +9,6 @@ class Spinner:
     async def async_with_spinner(
         message: str,
         style: str = "braille",
-        console_class: Any = None,
         coroutine: Awaitable = None
     ):
         """
@@ -18,14 +17,13 @@ class Spinner:
         Args:
             message: Text to display next to the spinner
             style: Style of spinner (currently only supports "braille")
-            console_class: The Console class for displaying output
             coroutine: The async operation to run while showing the spinner
         """
         spinner = Spinner(message)
         try:
             spinner.start()
-            await console_class(coroutine)
-            return None
+            suggestion, file_name = await coroutine
+            return suggestion, file_name
         finally:
             spinner.stop()
             print()  # Add a newline before Console output starts

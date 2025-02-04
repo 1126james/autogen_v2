@@ -17,27 +17,28 @@ def data_dict_summarizer_prompt():
     </instructions>
     
     <output_format>
-        For each identified analytics use case, provide the following structured information:
-        
-        ```
-        ### Use Case <Number>
-        - Use Case ID: C<UniqueNumber>
-        - Title: <Descriptive Title of the Use Case>
-        - Description: <Detailed explanation of the analytics use case, including the business objective it addresses and the insights it aims to generate.>
-        - Data Sources:
-            - <Dataset1.csv>
-            - <Dataset2.csv>
-            - <!-- Add additional data sources as needed -->
-        - Columns Utilized:
-            - <Dataset1.csv>.<ColumnName>
-            - <Dataset2.csv>.<ColumnName>
-            - <!-- List all relevant columns from the respective datasets -->
-        - Relationships Leveraged:
-            - <Description of how the columns are related (e.g., primary key, foreign key, common attributes) and how these relationships are utilized in the analysis.>
-        
-        ---
-        ```
-    </output_format>
+{
+  "use_cases": [
+    {
+      "use_case_id": "C<UniqueNumber>",
+      "title": "<Descriptive Title of the Use Case>",
+      "description": "<Detailed explanation of the analytics use case, including the business objective it addresses and the insights it aims to generate.>",
+      "data_sources": [
+        "Dataset1.csv",
+        "Dataset2.csv"
+        // Add additional data sources as needed
+      ],
+      "columns_utilized": [
+        "Dataset1.csv.ColumnName",
+        "Dataset2.csv.ColumnName"
+        // List all relevant columns from the respective datasets
+      ],
+      "relationships_leveraged": "<Description of how the columns are related (e.g., primary key, foreign key, common attributes) and how these relationships are utilized in the analysis.>"
+    }
+    // Add additional use case objects as needed
+  ]
+}
+</output_format>
     
     <rules>
         1. Exact Naming: Use the exact table and column names as specified in the provided data dictionaries.
