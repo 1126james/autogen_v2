@@ -43,7 +43,7 @@ async def jsonify_prompt(responses):
     # Save each dictionary in the list
     with open(filepath, 'w') as f:
         # Write opening bracket for JSON array
-        f.write('[\n')
+        f.write('{"Data_Dictionaries":[\n')
         
         # Write each dictionary
         for i, item in enumerate(json_response):
@@ -54,7 +54,7 @@ async def jsonify_prompt(responses):
                 f.write('\n')
                 
         # Write closing bracket
-        f.write(']')
+        f.write('],')
         
     print(f"\nData saved to: {filepath}")
     return json_response, filepath  # Return filename for reference

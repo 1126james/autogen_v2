@@ -21,18 +21,16 @@ Important: Ensure that your output strictly follows the <output_format> provided
 
 <output_format>
 {{
-  "Data Dictionary": {{
-    "filename": "{filename}",
-    "columns": [
-      {{
-        "Column": "<column_name>",
-        "Description": "<description>",
-        "Format": "<format>",
-        "Nullable": <true/false>,
-        "Sample Values": ["<sample1>", "<sample2>", "<sample3>"]
-      }}
-    ]
-  }}
+  "filename": "{filename}",
+  "columns": [
+    {{
+      "Column": "<column_name>",
+      "Description": "<description>",
+      "Format": "<format>",
+      "Nullable": <true/false>,
+      "Sample Values": ["<sample1>", "<sample2>", "<sample3>"]
+    }}
+  ]
 }}
 </output_format>
 

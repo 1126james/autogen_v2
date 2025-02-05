@@ -1,0 +1,774 @@
+{"Data_Dictionaries":[
+{
+    "filename": "products.csv",
+    "columns": [
+        {
+            "Column": "productCode",
+            "Description": "Unique code assigned to each product.",
+            "Format": "Identifier: Starts with a letter followed by numbers (e.g., S10_1678)",
+            "Nullable": false,
+            "Sample Values": [
+                "S10_1678",
+                "S10_1949",
+                "S10_2016"
+            ]
+        },
+        {
+            "Column": "productName",
+            "Description": "Name of the product.",
+            "Format": "Text: Contains free-form text strings describing the product name.",
+            "Nullable": false,
+            "Sample Values": [
+                "1969 Harley Davidson Ultimate Chopper",
+                "1952 Alpine Renault 1300",
+                "1996 Moto Guzzi 1100i"
+            ]
+        },
+        {
+            "Column": "productLine",
+            "Description": "Category of the product.",
+            "Format": "Categorical: Represents categories or labels such as Motorcycles, Classic Cars etc.",
+            "Nullable": false,
+            "Sample Values": [
+                "Motorcycles",
+                "Classic Cars",
+                "Motorcycles"
+            ]
+        },
+        {
+            "Column": "productScale",
+            "Description": "The scale of the product model.",
+            "Format": "Text: Contains strings indicating the ratio (e.g., 1:10)",
+            "Nullable": false,
+            "Sample Values": [
+                "1:10",
+                "1:10",
+                "1:10"
+            ]
+        },
+        {
+            "Column": "productVendor",
+            "Description": "The vendor or manufacturer of the product.",
+            "Format": "Text: Contains free-form text strings indicating the name of the vendor.",
+            "Nullable": false,
+            "Sample Values": [
+                "Min Lin Diecast",
+                "Classic Metal Creations",
+                "Highway 66 Mini Classics"
+            ]
+        },
+        {
+            "Column": "productDescription",
+            "Description": "Detailed description of the product including features and specifications.",
+            "Format": "Text: Contains free-form text strings describing detailed information about the product.",
+            "Nullable": false,
+            "Sample Values": [
+                "This replica features working kickstand, front suspension, gear-shift lever, footbrake lever, drive chain, wheels and steering. All parts are particularly delicate due to their precise scale and require special care and attention.",
+                "Turnable front wheels, steering function, detailed interior, detailed engine, opening hood, opening trunk, opening doors, and detailed chassis.",
+                "Official Moto Guzzi logos and insignias, saddle bags located on side of motorcycle, detailed engine, working steering, working suspension, two leather seats, luggage rack, dual exhaust pipes, small saddle bag located on handle bars, two-tone paint with chrome accents, superior die-cast detail , rotating wheels , working kick stand, diecast metal with plastic parts and baked enamel finish."
+            ]
+        },
+        {
+            "Column": "quantityInStock",
+            "Description": "The number of units currently in stock.",
+            "Format": "Numeric: Represents integer values indicating the quantity available.",
+            "Nullable": false,
+            "Sample Values": [
+                "7933",
+                "7305",
+                "6625"
+            ]
+        },
+        {
+            "Column": "buyPrice",
+            "Description": "The price at which the product is purchased by the company.",
+            "Format": "Numeric: Represents decimal values indicating monetary amounts.",
+            "Nullable": false,
+            "Sample Values": [
+                "48.81",
+                "98.58",
+                "68.99"
+            ]
+        },
+        {
+            "Column": "MSRP",
+            "Description": "Manufacturer's Suggested Retail Price for the product.",
+            "Format": "Numeric: Represents decimal values indicating monetary amounts.",
+            "Nullable": false,
+            "Sample Values": [
+                "95.7",
+                "214.3",
+                "118.94"
+            ]
+        }
+    ]
+},
+{
+    "filename": "orders.csv",
+    "columns": [
+        {
+            "Column": "orderNumber",
+            "Description": "A unique identifier assigned to each order.",
+            "Format": "Identifier: Starts with a number and consists of integers only.",
+            "Nullable": false,
+            "Sample Values": [
+                "10100",
+                "10101",
+                "10102"
+            ]
+        },
+        {
+            "Column": "orderDate",
+            "Description": "The date when the order was placed.",
+            "Format": "Datetime: YYYY-MM-DD format.",
+            "Nullable": false,
+            "Sample Values": [
+                "2003-01-06",
+                "2003-01-09",
+                "2003-01-10"
+            ]
+        },
+        {
+            "Column": "requiredDate",
+            "Description": "The date by which the order is required to be completed.",
+            "Format": "Datetime: YYYY-MM-DD format.",
+            "Nullable": false,
+            "Sample Values": [
+                "2003-01-13",
+                "2003-01-18",
+                "2003-01-18"
+            ]
+        },
+        {
+            "Column": "shippedDate",
+            "Description": "The date when the order was shipped.",
+            "Format": "Datetime: YYYY-MM-DD format.",
+            "Nullable": false,
+            "Sample Values": [
+                "2003-01-10",
+                "2003-01-11",
+                "2003-01-14"
+            ]
+        },
+        {
+            "Column": "status",
+            "Description": "The current status of the order.",
+            "Format": "Categorical: Represents categories such as 'Shipped', etc.",
+            "Nullable": false,
+            "Sample Values": [
+                "Shipped",
+                "Shipped",
+                "Shipped"
+            ]
+        },
+        {
+            "Column": "comments",
+            "Description": "Additional notes or comments related to the order.",
+            "Format": "Text: Contains free-form text strings.",
+            "Nullable": true,
+            "Sample Values": [
+                "Check on availability.",
+                "Difficult to negotiate with customer. We need more marketing materials",
+                "Customer requested that FedEx Ground is used for this shipping"
+            ]
+        },
+        {
+            "Column": "customerNumber",
+            "Description": "A unique identifier assigned to each customer.",
+            "Format": "Identifier: Starts with a number and consists of integers only.",
+            "Nullable": false,
+            "Sample Values": [
+                "363",
+                "128",
+                "181"
+            ]
+        }
+    ]
+},
+{
+    "filename": "employee.csv",
+    "columns": [
+        {
+            "Column": "employeeNumber",
+            "Description": "Unique identifier for each employee.",
+            "Format": "Identifier: Starts with a number, no specific pattern beyond being numeric.",
+            "Nullable": false,
+            "Sample Values": [
+                "1002",
+                "1056",
+                "1076"
+            ]
+        },
+        {
+            "Column": "lastName",
+            "Description": "The last name of the employee.",
+            "Format": "Text: Contains alphabetic characters only, representing a surname.",
+            "Nullable": false,
+            "Sample Values": [
+                "Murphy",
+                "Patterson",
+                "Firrelli"
+            ]
+        },
+        {
+            "Column": "firstName",
+            "Description": "The first name of the employee.",
+            "Format": "Text: Contains alphabetic characters only, representing a given name.",
+            "Nullable": false,
+            "Sample Values": [
+                "Diane",
+                "Mary",
+                "Jeff"
+            ]
+        },
+        {
+            "Column": "extension",
+            "Description": "Extension number used for internal communication.",
+            "Format": "Identifier: Starts with 'x' followed by numbers, indicating an extension code.",
+            "Nullable": false,
+            "Sample Values": [
+                "x5800",
+                "x4611",
+                "x9273"
+            ]
+        },
+        {
+            "Column": "email",
+            "Description": "Email address of the employee used for official communication.",
+            "Format": "Text: Contains alphanumeric characters and special symbols, follows email format with '@' symbol.",
+            "Nullable": false,
+            "Sample Values": [
+                "dmurphy@classicmodelcars.com",
+                "mpatterso@classicmodelcars.com",
+                "jfirrelli@classicmodelcars.com"
+            ]
+        },
+        {
+            "Column": "officeCode",
+            "Description": "Identifier for the office where the employee works.",
+            "Format": "Numeric: Represents an integer value indicating a specific office location code.",
+            "Nullable": false,
+            "Sample Values": [
+                "1",
+                "1",
+                "1"
+            ]
+        },
+        {
+            "Column": "reportsTo",
+            "Description": "Employee number of the person to whom this employee reports directly.",
+            "Format": "Identifier: Starts with '0' for top-level management or a numeric identifier similar to 'employeeNumber'.",
+            "Nullable": false,
+            "Sample Values": [
+                "0",
+                "1002",
+                "1002"
+            ]
+        },
+        {
+            "Column": "jobTitle",
+            "Description": "The job title of the employee.",
+            "Format": "Text: Contains alphabetic characters and spaces, representing a professional role or position within the company.",
+            "Nullable": false,
+            "Sample Values": [
+                "President",
+                "VP Sales",
+                "VP Marketing"
+            ]
+        }
+    ]
+},
+{
+    "filename": "office.csv",
+    "columns": [
+        {
+            "Column": "officeCode",
+            "Description": "A unique identifier for each office.",
+            "Format": "Identifier: Starts with a number like 1, 2, etc.",
+            "Nullable": false,
+            "Sample Values": [
+                "1",
+                "2",
+                "3"
+            ]
+        },
+        {
+            "Column": "city",
+            "Description": "The city where the office is located.",
+            "Format": "Text: Contains names of cities.",
+            "Nullable": false,
+            "Sample Values": [
+                "San Francisco",
+                "Boston",
+                "NYC"
+            ]
+        },
+        {
+            "Column": "phone",
+            "Description": "Phone number for contacting the office.",
+            "Format": "Text: Follows a pattern like +1 XXX XXX XXXX",
+            "Nullable": false,
+            "Sample Values": [
+                "+1 650 219 4782",
+                "+1 215 837 0825",
+                "+1 212 555 3000"
+            ]
+        },
+        {
+            "Column": "addressLine1",
+            "Description": "The first line of the office's address.",
+            "Format": "Text: Contains street and number information.",
+            "Nullable": false,
+            "Sample Values": [
+                "100 Market Street",
+                "1550 Court Place",
+                "523 East 53rd Street"
+            ]
+        },
+        {
+            "Column": "addressLine2",
+            "Description": "The second line of the office's address, often containing suite or apartment numbers.",
+            "Format": "Text: Contains additional location details like 'Suite' or 'apt.' followed by a number.",
+            "Nullable": true,
+            "Sample Values": [
+                "Suite 300",
+                "Suite 102",
+                "apt. 5A"
+            ]
+        },
+        {
+            "Column": "state",
+            "Description": "The state where the office is located, represented as an abbreviation.",
+            "Format": "Text: Contains two-letter abbreviations for states like CA, MA, NY.",
+            "Nullable": false,
+            "Sample Values": [
+                "CA",
+                "MA",
+                "NY"
+            ]
+        },
+        {
+            "Column": "country",
+            "Description": "The country where the office is located.",
+            "Format": "Text: Contains full names of countries.",
+            "Nullable": false,
+            "Sample Values": [
+                "USA",
+                "USA",
+                "USA"
+            ]
+        },
+        {
+            "Column": "postalCode",
+            "Description": "Postal or zip code for the location of the office.",
+            "Format": "Numeric: Consists of 5 digits without any separators.",
+            "Nullable": false,
+            "Sample Values": [
+                "94080",
+                "02107",
+                "10022"
+            ]
+        },
+        {
+            "Column": "territory",
+            "Description": "The geographical territory the office belongs to, often used for business divisions.",
+            "Format": "Categorical: Contains labels like EMEA, Japan, APAC representing different territories.",
+            "Nullable": false,
+            "Sample Values": [
+                "EMEA",
+                "Japan",
+                "APAC"
+            ]
+        }
+    ]
+},
+{
+    "filename": "customer.csv",
+    "columns": [
+        {
+            "Column": "customerNumber",
+            "Description": "Unique identifier for each customer.",
+            "Format": "Identifier: Starts with a number like 103, 112, etc.",
+            "Nullable": false,
+            "Sample Values": [
+                "103",
+                "112",
+                "114"
+            ]
+        },
+        {
+            "Column": "customerName",
+            "Description": "The full name of the customer or company.",
+            "Format": "Text: Contains free-form text strings like 'Atelier graphique', 'Signal Gift Stores'.",
+            "Nullable": false,
+            "Sample Values": [
+                "Atelier graphique",
+                "Signal Gift Stores",
+                "Australian Collectors, Co."
+            ]
+        },
+        {
+            "Column": "contactLastName",
+            "Description": "The last name of the contact person for the customer.",
+            "Format": "Text: Contains free-form text strings like 'Schmitt', 'King'.",
+            "Nullable": false,
+            "Sample Values": [
+                "Schmitt",
+                "King",
+                "Ferguson"
+            ]
+        },
+        {
+            "Column": "contactFirstName",
+            "Description": "The first name of the contact person for the customer.",
+            "Format": "Text: Contains free-form text strings like 'Carine', 'Jean'.",
+            "Nullable": false,
+            "Sample Values": [
+                "Carine ",
+                "Jean",
+                "Peter"
+            ]
+        },
+        {
+            "Column": "phone",
+            "Description": "The phone number of the customer.",
+            "Format": "Text: Contains free-form text strings like '40.32.2555', '7025551838'.",
+            "Nullable": false,
+            "Sample Values": [
+                "40.32.2555",
+                "7025551838",
+                "03 9520 4555"
+            ]
+        },
+        {
+            "Column": "addressLine1",
+            "Description": "The first line of the customer's address.",
+            "Format": "Text: Contains free-form text strings like '54, rue Royale', '8489 Strong St.'. ",
+            "Nullable": false,
+            "Sample Values": [
+                "54, rue Royale",
+                "8489 Strong St.",
+                "636 St Kilda Road"
+            ]
+        },
+        {
+            "Column": "addressLine2",
+            "Description": "The second line of the customer's address.",
+            "Format": "Text: Contains free-form text strings like 'Level 3', 'Bronz Apt. 3/6 Tesvikiye'.",
+            "Nullable": true,
+            "Sample Values": [
+                "Level 3",
+                "Bronz Apt. 3/6 Tesvikiye",
+                "Suite 400"
+            ]
+        },
+        {
+            "Column": "city",
+            "Description": "The city where the customer is located.",
+            "Format": "Text: Contains free-form text strings like 'Nantes', 'Las Vegas'.",
+            "Nullable": false,
+            "Sample Values": [
+                "Nantes",
+                "Las Vegas",
+                "Melbourne"
+            ]
+        },
+        {
+            "Column": "state",
+            "Description": "The state or province where the customer is located.",
+            "Format": "Text: Contains free-form text strings like 'NV', 'Victoria'.",
+            "Nullable": true,
+            "Sample Values": [
+                "NV",
+                "",
+                "CA"
+            ]
+        },
+        {
+            "Column": "postalCode",
+            "Description": "The postal code of the customer's address.",
+            "Format": "Identifier: Starts with a number like 44000, 83030.",
+            "Nullable": true,
+            "Sample Values": [
+                "44000",
+                "83030",
+                "3004"
+            ]
+        },
+        {
+            "Column": "country",
+            "Description": "The country where the customer is located.",
+            "Format": "Text: Contains free-form text strings like 'France', 'USA'.",
+            "Nullable": false,
+            "Sample Values": [
+                "France",
+                "USA",
+                "Australia"
+            ]
+        },
+        {
+            "Column": "salesRepEmployeeNumber",
+            "Description": "The unique identifier for the sales representative assigned to this customer.",
+            "Format": "Identifier: Starts with a number like 1370, 1166.",
+            "Nullable": true,
+            "Sample Values": [
+                "1370",
+                "1166",
+                "1611"
+            ]
+        },
+        {
+            "Column": "creditLimit",
+            "Description": "The credit limit assigned to the customer.",
+            "Format": "Numeric: Decimal numbers like 21000.0, 71800.0.",
+            "Nullable": true,
+            "Sample Values": [
+                "21000.0",
+                "71800.0",
+                "117300.0"
+            ]
+        }
+    ]
+},
+{
+    "filename": "productlines.csv",
+    "columns": [
+        {
+            "Column": "productLine",
+            "Description": "The category or line of products.",
+            "Format": "Categorical",
+            "Nullable": false,
+            "Sample Values": [
+                "Classic Cars",
+                "Motorcycles",
+                "Planes"
+            ]
+        },
+        {
+            "Column": "textDescription",
+            "Description": "A detailed textual description about the product line, highlighting features and specifications.",
+            "Format": "Text",
+            "Nullable": false,
+            "Sample Values": [
+                "Attention car enthusiasts: Make your wildest car ownership dreams come true. Whether you are looking for classic muscle cars, dream sports cars or movie-inspired miniatures, you will find great choices in this category...",
+                "Our motorcycles are state of the art replicas of classic as well as contemporary motorcycle legends such as Harley Davidson, Ducati and Vespa. Models contain stunning details such as official logos, rotating wheels...",
+                "Unique, diecast airplane and helicopter replicas suitable for collections, as well as home, office or classroom decorations. Models contain stunning details such as official logos and insignias..."
+            ]
+        },
+        {
+            "Column": "htmlDescription",
+            "Description": "An HTML formatted version of the product line description.",
+            "Format": "Text (HTML)",
+            "Nullable": true,
+            "Sample Values": [
+                null,
+                null,
+                null
+            ]
+        },
+        {
+            "Column": "image",
+            "Description": "A reference or link to an image associated with the product line.",
+            "Format": "None",
+            "Nullable": true,
+            "Sample Values": [
+                null,
+                null,
+                null
+            ]
+        }
+    ]
+},
+{
+    "filename": "payments.csv",
+    "columns": [
+        {
+            "Column": "customerNumber",
+            "Description": "A unique identifier for each customer.",
+            "Format": "Identifier: Starts with a number like 103.",
+            "Nullable": false,
+            "Sample Values": [
+                "103",
+                "103",
+                "103"
+            ]
+        },
+        {
+            "Column": "checkNumber",
+            "Description": "A unique identifier for each payment check.",
+            "Format": "Identifier: Starts with two letters followed by numbers like HQ336336.",
+            "Nullable": false,
+            "Sample Values": [
+                "HQ336336",
+                "JM555205",
+                "OM314933"
+            ]
+        },
+        {
+            "Column": "paymentDate",
+            "Description": "The date when the payment was made.",
+            "Format": "Datetime: YYYY-MM-DD format like 2004-10-19.",
+            "Nullable": false,
+            "Sample Values": [
+                "2004-10-19",
+                "2003-06-05",
+                "2004-12-18"
+            ]
+        },
+        {
+            "Column": "amount",
+            "Description": "The monetary amount of the payment.",
+            "Format": "Numeric: Decimal numbers like 6066.78, representing currency values.",
+            "Nullable": false,
+            "Sample Values": [
+                "6066.78",
+                "14571.44",
+                "1676.14"
+            ]
+        }
+    ]
+},
+{
+    "filename": "orderdetails.csv",
+    "columns": [
+        {
+            "Column": "orderNumber",
+            "Description": "A unique identifier for each order.",
+            "Format": "Identifier: Starts with a number, no specific pattern beyond that.",
+            "Nullable": false,
+            "Sample Values": [
+                "10100",
+                "10100",
+                "10100"
+            ]
+        },
+        {
+            "Column": "productCode",
+            "Description": "A unique identifier for each product in the order.",
+            "Format": "Identifier: Starts with 'S' followed by numbers and underscores.",
+            "Nullable": false,
+            "Sample Values": [
+                "S18_1749",
+                "S18_2248",
+                "S18_4409"
+            ]
+        },
+        {
+            "Column": "quantityOrdered",
+            "Description": "The quantity of the product ordered.",
+            "Format": "Numeric: Integer values representing quantities.",
+            "Nullable": false,
+            "Sample Values": [
+                "30",
+                "50",
+                "22"
+            ]
+        },
+        {
+            "Column": "priceEach",
+            "Description": "Price for each unit of the product in the order.",
+            "Format": "Numeric: Decimal numbers representing currency values.",
+            "Nullable": false,
+            "Sample Values": [
+                "136.0",
+                "55.09",
+                "75.46"
+            ]
+        },
+        {
+            "Column": "orderLineNumber",
+            "Description": "The line number of the order detail within an order, indicating the sequence or position.",
+            "Format": "Numeric: Integer values representing positions in a list.",
+            "Nullable": false,
+            "Sample Values": [
+                "3",
+                "2",
+                "4"
+            ]
+        }
+    ]
+}
+],
+
+
+"use_cases": [
+  {
+    "use_case_id": "C001",
+    "title": "Optimize Product Inventory Based on Sales Trends",
+    "description": "Identify products that are frequently sold and have low stock to ensure they remain in sufficient supply. This use case aims at increasing revenue by ensuring high-demand items do not go out of stock, reducing lost sales opportunities.",
+    "data_sources": [
+      "products.csv",
+      "orderdetails.csv"
+    ],
+    "columns_utilized": [
+      "products.csv.productCode",
+      "products.csv.quantityInStock",
+      "orderdetails.csv.orderNumber",
+      "orderdetails.csv.productCode",
+      "orderdetails.csv.quantityOrdered"
+    ],
+    "relationships_leveraged": "The productCode column in products.csv is a primary key that matches with the productCode in orderdetails.csv, allowing us to link each ordered item back to its inventory quantity."
+  },
+  {
+    "use_case_id": "C002",
+    "title": "Identify High-Revenue Customer Segments for Targeted Marketing",
+    "description": "Segment customers based on their payment history and total payments. This use case aims at increasing revenue by identifying high-spending customer segments and tailoring marketing efforts to retain and attract similar profiles.",
+    "data_sources": [
+      "customer.csv",
+      "payments.csv"
+    ],
+    "columns_utilized": [
+      "customer.csv.customerNumber",
+      "customer.csv.customerName",
+      "payments.csv.customerNumber",
+      "payments.csv.amount"
+    ],
+    "relationships_leveraged": "The customerNumber column in both customer.csv and payments.csv is used to link each payment record back to the respective customer, enabling aggregation of total spending per customer."
+  },
+  {
+    "use_case_id": "C003",
+    "title": "Analyze Order Fulfillment Timeliness to Improve Service Quality",
+    "description": "Evaluate the timeliness and efficiency of order fulfillment by comparing order dates with shipment dates. This use case aims at enhancing operational efficiency by identifying delays in shipping and improving customer satisfaction.",
+    "data_sources": [
+      "orders.csv"
+    ],
+    "columns_utilized": [
+      "orders.csv.orderDate",
+      "orders.csv.shippedDate",
+      "orders.csv.requiredDate"
+    ],
+    "relationships_leveraged": "The orderDate, shippedDate, and requiredDate columns in orders.csv provide a timeline to measure the adherence to delivery timelines."
+  },
+  {
+    "use_case_id": "C004",
+    "title": "Evaluate Sales Rep Performance by Customer Sales Contributions",
+    "description": "Quantify sales contributions from customers managed by different sales representatives. This use case aims at improving customer service and revenue generation by assessing the performance of each sales rep based on their managed accounts.",
+    "data_sources": [
+      "customer.csv",
+      "orders.csv"
+    ],
+    "columns_utilized": [
+      "customer.csv.customerNumber",
+      "customer.csv.salesRepEmployeeNumber",
+      "orders.csv.orderNumber",
+      "orders.csv.customerNumber"
+    ],
+    "relationships_leveraged": "The customerNumber column links orders with customers, while salesRepEmployeeNumber associates each customer to their respective sales representative."
+  },
+  {
+    "use_case_id": "C005",
+    "title": "Assess Product Profit Margins Across Different Categories",
+    "description": "Calculate profit margins for different product categories based on buyPrice and MSRP. This use case aims at optimizing inventory management by focusing on high-margin products while reducing the stock of low-margin items.",
+    "data_sources": [
+      "products.csv"
+    ],
+    "columns_utilized": [
+      "products.csv.productCode",
+      "products.csv.buyPrice",
+      "products.csv.MSRP",
+      "products.csv.productLine"
+    ],
+    "relationships_leveraged": "The productLine column categorizes products, while buyPrice and MSRP allow for the calculation of profit margins per category."
+  }
+]
+}
