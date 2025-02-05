@@ -17,6 +17,11 @@ def data_dict_summarizer_prompt():
     </instructions>
     
     <output_format>
+<<<<<<< Updated upstream
+=======
+    For each identified analytics use case, provide the following structured information:
+    
+>>>>>>> Stashed changes
 {
   "use_cases": [
     {

@@ -1,0 +1,94 @@
+{
+  "use_cases": [
+    {
+      "use_case_id": "C001",
+      "title": "Sales Performance by Product Line and Region",
+      "description": "Analyze sales performance to understand which product lines perform best in different regions, helping the company tailor marketing strategies and inventory management decisions.",
+      "data_sources": [
+        "products.csv",
+        "orderdetails.csv",
+        "orders.csv",
+        "customer.csv",
+        "office.csv"
+      ],
+      "columns_utilized": [
+        "products.csv.productLine",
+        "orderdetails.csv.orderNumber",
+        "orderdetails.csv.quantityOrdered",
+        "orderdetails.csv.priceEach",
+        "orders.csv.customerNumber",
+        "customer.csv.city",
+        "customer.csv.country",
+        "office.csv.officeCode"
+      ],
+      "relationships_leveraged": "Utilizes the relationships between productLine in products, order details from orderdetails via shared orderNumber and quantityOrdered, customer location data through orders and customers tables, and office locations for regional insights."
+    },
+    {
+      "use_case_id": "C002",
+      "title": "Customer Payment Analysis",
+      "description": "Analyze payment patterns to identify top paying customers, late payments, or potential credit risks to improve cash flow management.",
+      "data_sources": [
+        "customer.csv",
+        "payments.csv"
+      ],
+      "columns_utilized": [
+        "customer.csv.customerNumber",
+        "customer.csv.contactLastName",
+        "customer.csv.creditLimit",
+        "payments.csv.amount",
+        "payments.csv.paymentDate"
+      ],
+      "relationships_leveraged": "Relates customer details with payment information to assess credit utilization and timely payments."
+    },
+    {
+      "use_case_id": "C003",
+      "title": "Employee Performance Analysis by Office Location",
+      "description": "Evaluate the performance of employees based on their office location, job titles, and customer interactions, helping in resource allocation and talent management.",
+      "data_sources": [
+        "employee.csv",
+        "customer.csv"
+      ],
+      "columns_utilized": [
+        "employee.csv.employeeNumber",
+        "employee.csv.jobTitle",
+        "employee.csv.officeCode",
+        "customer.csv.customerName",
+        "customer.csv.salesRepEmployeeNumber"
+      ],
+      "relationships_leveraged": "Links employees to customers they serve and the office locations, allowing analysis of performance and efficiency by geographic regions."
+    },
+    {
+      "use_case_id": "C004",
+      "title": "Inventory Management for High-Demand Products",
+      "description": "Identify high-demand products that are likely to sell out soon or require restocking based on historical order data and current stock levels.",
+      "data_sources": [
+        "products.csv",
+        "orderdetails.csv"
+      ],
+      "columns_utilized": [
+        "products.csv.productCode",
+        "products.csv.quantityInStock",
+        "orderdetails.csv.orderNumber",
+        "orderdetails.csv.productCode",
+        "orderdetails.csv.quantityOrdered"
+      ],
+      "relationships_leveraged": "Considers product stock levels and total quantities ordered to predict inventory needs for high-demand items."
+    },
+    {
+      "use_case_id": "C005",
+      "title": "Product Line Performance Analysis",
+      "description": "Analyze the performance of different product lines by sales volume, revenue generated, and comparison with manufacturer suggested retail price (MSRP) to optimize pricing and marketing strategies.",
+      "data_sources": [
+        "products.csv",
+        "orderdetails.csv"
+      ],
+      "columns_utilized": [
+        "products.csv.productLine",
+        "products.csv.MSRP",
+        "orderdetails.csv.quantityOrdered",
+        "orderdetails.priceEach"
+      ],
+      "relationships_leveraged": "Utilizes product line information and sales data to understand revenue generation per category."
+    }
+  ]
+}
